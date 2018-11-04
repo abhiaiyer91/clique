@@ -1,0 +1,9 @@
+type Location {
+  id: ID!
+  url: String
+  name: String!
+  address: Address
+  avatar: String
+  rating: Float
+  reviewCount: Int
+}

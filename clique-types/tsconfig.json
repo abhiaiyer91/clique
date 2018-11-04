@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es2017", "esnext.asynciterable"],
+    "declaration": true,
+    "outDir": "lib"
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "MockServer",
+    "lib",
+    "dist",
+    "mergeServiceSchemas.ts",
+    "mergeSchemaExports.ts",
+    "generateSchemaJson.ts",
+    "generateServiceBinding.ts",
+    "generateTypeDefinitions.ts"
+  ]
+}
