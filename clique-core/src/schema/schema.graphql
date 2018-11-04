@@ -1,0 +1,23 @@
+type Address {
+  address1: String
+  address2: String
+  address3: String
+  city: String
+  zipcode: String
+  country: String
+  state: String
+}
+
+type Location {
+  id: ID!
+  url: String
+  name: String!
+  address: Address
+  avatar: String
+  rating: Float
+  reviewCount: Int
+}
+
+type Query {
+  locations(searchText: String!): [Location]
+}
