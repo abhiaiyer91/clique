@@ -2,12 +2,21 @@ enum EventType {
   HAPPY_HOUR
 }
 
+enum EventStatus {
+  COMPLETED
+  PLANNED
+  INCOMPLETE
+  CANCELLED
+}
+
 type Event {
   id: ID! @unique
   participants: [ID!]
+  pendingParticipants: [ID!]
   locationId: ID
   createdAt: DateTime!
   updatedAt: DateTime!
   eventTime: DateTime
   type: EventType!
+  status: EventStatus!
 }

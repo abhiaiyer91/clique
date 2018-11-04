@@ -1,0 +1,5 @@
+mutation updatePendingParticipants($eventId: ID!, $participants: [ID!]!) {
+  updatePendingParticipants(eventId: $eventId, participants: $participants) {
+    ...EventFragment
+  }
+}

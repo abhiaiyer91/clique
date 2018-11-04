@@ -7,10 +7,14 @@
  *
  ******************************************************************************/
 exports.__esModule = true;
-var createEvent = "mutation createEvent($type: EventType) {\n  createEvent(type: $type) {\n    id\n    location {\n      id\n      name\n      avatar\n      rating\n      reviewCount\n      url\n      address {\n        address1\n        address2\n        city\n        country\n        zipcode\n        state\n      }\n    }\n    participants {\n      id\n      avatar\n    }\n    eventTime\n    type\n  }\n}";
-var eventById = "query eventById($id: ID!) {\n  eventById(id: $id) {\n    id\n    location {\n      id\n      name\n      avatar\n      rating\n      reviewCount\n      url\n      address {\n        address1\n        address2\n        city\n        country\n        zipcode\n        state\n      }\n    }\n    participants {\n      id\n      avatar\n    }\n    eventTime\n    type\n  }\n}";
+var createEvent = "mutation createEvent($type: EventType) {\n  createEvent(type: $type) {\n    ...EventFragment\n  }\n}";
+var eventById = "query eventById($id: ID!) {\n  eventById(id: $id) {\n    ...EventFragment\n  }\n}";
+var eventFragment = "fragment EventFragment on Event {\n  id\n  location {\n    id\n    name\n    avatar\n    rating\n    reviewCount\n    url\n    address {\n      address1\n      address2\n      city\n      country\n      zipcode\n      state\n    }\n  }\n  participants {\n    id\n    avatar\n  }\n  invitedParticipants {\n    id\n    avatar\n  }\n  eventTime\n  type\n}";
 var eventsForUser = "query eventsForUser {\n  eventsForUser {\n    id\n    location {\n      id\n      name\n      avatar\n      rating\n      reviewCount\n      url\n      address {\n        address1\n        address2\n        city\n        country\n        zipcode\n        state\n      }\n    }\n    participants {\n      id\n      avatar\n    }\n    eventTime\n    type\n  }\n}";
 var searchLocations = "query searchLocations($searchText: String!) {\n  locations(searchText: $searchText) {\n    id\n    name\n    avatar\n    rating\n    reviewCount\n    url\n    address {\n      address1\n      address2\n      city\n      country\n      zipcode\n      state\n    }\n  }\n}";
+var updateEventLocation = "mutation updateEventLocation($eventId: ID!, $locationId: ID!) {\n  updateEventLocation(eventId: $eventId, locationId: $locationId) {\n    ...EventFragment\n  }\n}";
+var updateParticipants = "mutation updateParticipants($eventId: ID!, $participants: [ID!]!) {\n  updateParticipants(eventId: $eventId, participants: $participants) {\n    ...EventFragment\n  }\n}";
+var updatePendingParticipants = "mutation updatePendingParticipants($eventId: ID!, $participants: [ID!]!) {\n  updatePendingParticipants(eventId: $eventId, participants: $participants) {\n    ...EventFragment\n  }\n}";
 var friends = "query friends {\n  friends {\n    id\n    email\n    name\n    avatar\n  }\n}";
 var login = "mutation login($email: String!, $password: String!) {\n  login(email: $email, password: $password) {\n    user {\n      id\n      name\n      email\n    }\n    token\n  }\n}";
 var me = "query me {\n  me {\n    id\n    name\n    location {\n      state\n      zipcode\n    }\n  }\n}";
@@ -18,8 +22,12 @@ var signup = "mutation signup($name: String!, $email: String!, $password: String
 exports["default"] = {
     createEvent: createEvent,
     eventById: eventById,
+    eventFragment: eventFragment,
     eventsForUser: eventsForUser,
     searchLocations: searchLocations,
+    updateEventLocation: updateEventLocation,
+    updateParticipants: updateParticipants,
+    updatePendingParticipants: updatePendingParticipants,
     friends: friends,
     login: login,
     me: me,

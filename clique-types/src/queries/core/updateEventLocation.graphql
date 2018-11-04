@@ -1,0 +1,5 @@
+mutation updateEventLocation($eventId: ID!, $locationId: ID!) {
+  updateEventLocation(eventId: $eventId, locationId: $locationId) {
+    ...EventFragment
+  }
+}

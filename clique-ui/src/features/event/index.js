@@ -38,7 +38,7 @@ export default function App() {
             <SubHeader>Find a spot</SubHeader>
             <LocationCard />
           </div>
-          <SubHeader>Add friends</SubHeader>
+          <SubHeader>Invite friends</SubHeader>
           <Card>
             <Friends />
           </Card>

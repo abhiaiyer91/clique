@@ -1,7 +1,9 @@
 type Event {
   id: ID!
   participants: [User]
+  invitedParticipants: [User]
   location: Location
   eventTime: Float
   type: EventType!
+  status: EventStatus!
 }

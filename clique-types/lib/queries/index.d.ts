@@ -8,8 +8,12 @@
 declare const _default: {
     createEvent: string;
     eventById: string;
+    eventFragment: string;
     eventsForUser: string;
     searchLocations: string;
+    updateEventLocation: string;
+    updateParticipants: string;
+    updatePendingParticipants: string;
     friends: string;
     login: string;
     me: string;

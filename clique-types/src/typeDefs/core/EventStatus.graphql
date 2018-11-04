@@ -1,0 +1,6 @@
+enum EventStatus {
+  COMPLETED
+  PLANNED
+  INCOMPLETE
+  CANCELLED
+}

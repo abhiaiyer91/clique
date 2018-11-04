@@ -22,9 +22,20 @@ const Event = `
 type Event {
   id: ID!
   participants: [User]
+  invitedParticipants: [User]
   location: Location
   eventTime: Float
   type: EventType!
+  status: EventStatus!
+}
+`;
+
+const EventStatus = `
+enum EventStatus {
+  COMPLETED
+  PLANNED
+  INCOMPLETE
+  CANCELLED
 }
 `;
 
@@ -67,6 +78,7 @@ type User {
 export default {
   Address,
   Event,
+  EventStatus,
   EventType,
   Location,
   AuthPayload,

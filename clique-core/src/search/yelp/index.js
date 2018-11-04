@@ -3,6 +3,28 @@ import { YELP_API_KEY } from "../../settings";
 
 const client = yelp.client(YELP_API_KEY);
 
+export function searchBusiness(locationId) {
+  return client
+    .business(locationId)
+    .then(response => {
+      const item = response.jsonBody;
+      return {
+        id: item.id,
+        name: item.name,
+        url: item.url,
+        rating: item.rating || 0,
+        reviewCount: item.review_count,
+        avatar: item.image_url,
+        address: Object.assign(item.location, {
+          zipcode: item.location.zip_code
+        })
+      };
+    })
+    .catch(e => {
+      console.log(e);
+    });
+}
+
 export function search({
   text,
   location = "Los Angeles",
