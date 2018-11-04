@@ -12,6 +12,7 @@ schema {
 type Query {
   locations(searchText: String!): [Location]
   me: User
+  friends: [User]
 }
 
 type Mutation {

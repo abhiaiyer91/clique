@@ -41,6 +41,7 @@ const User = `
 type User {
   id: ID!
   email: String!
+  avatar: String
   name: String!
   phone: String
   location: Address

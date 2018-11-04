@@ -8,10 +8,14 @@
  ******************************************************************************/
 exports.__esModule = true;
 var searchLocations = "query searchLocations($searchText: String!) {\n  locations(searchText: $searchText) {\n    id\n    name\n    avatar\n    rating\n    reviewCount\n    url\n    address {\n      address1\n      address2\n      city\n      country\n      zipcode\n      state\n    }\n  }\n}";
+var friends = "query friends {\n  friends {\n    id\n    email\n    name\n    avatar\n  }\n}";
 var login = "mutation login($email: String!, $password: String!) {\n  login(email: $email, password: $password) {\n    user {\n      id\n      name\n      email\n    }\n    token\n  }\n}";
+var me = "query me {\n  me {\n    id\n    name\n    location {\n      state\n      zipcode\n    }\n  }\n}";
 var signup = "mutation signup($name: String!, $email: String!, $password: String!) {\n  signup(name: $name, email: $email, password: $password) {\n    user {\n      id\n      name\n      email\n    }\n    token\n  }\n}";
 exports["default"] = {
     searchLocations: searchLocations,
+    friends: friends,
     login: login,
+    me: me,
     signup: signup
 };

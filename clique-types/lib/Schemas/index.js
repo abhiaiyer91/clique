@@ -8,4 +8,4 @@
 ******************************************************************************/
 exports.__esModule = true;
 exports.CoreRootType = "\ntype Query {\n  locations(searchText: String!): [Location]\n}\n";
-exports.UserRootType = "\ntype Query {\n  me: User\n}\ntype Mutation {\n  signup(name: String!, email: String!, password: String!): AuthPayload!\n  login(email: String!, password: String!): AuthPayload!\n}\n";
+exports.UserRootType = "\ntype Query {\n  me: User\n  friends: [User]\n}\ntype Mutation {\n  signup(name: String!, email: String!, password: String!): AuthPayload!\n  login(email: String!, password: String!): AuthPayload!\n}\n";

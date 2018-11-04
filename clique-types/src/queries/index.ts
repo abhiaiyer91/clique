@@ -24,6 +24,14 @@ const searchLocations = `query searchLocations($searchText: String!) {
     }
   }
 }`;
+const friends = `query friends {
+  friends {
+    id
+    email
+    name
+    avatar
+  }
+}`;
 const login = `mutation login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     user {
@@ -32,6 +40,16 @@ const login = `mutation login($email: String!, $password: String!) {
       email
     }
     token
+  }
+}`;
+const me = `query me {
+  me {
+    id
+    name
+    location {
+      state
+      zipcode
+    }
   }
 }`;
 const signup = `mutation signup($name: String!, $email: String!, $password: String!) {
@@ -47,6 +65,8 @@ const signup = `mutation signup($name: String!, $email: String!, $password: Stri
 
 export default {
   searchLocations,
+  friends,
   login,
+  me,
   signup
 };

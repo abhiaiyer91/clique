@@ -16,6 +16,7 @@ type Query {
 export const UserRootType = `
 type Query {
   me: User
+  friends: [User]
 }
 type Mutation {
   signup(name: String!, email: String!, password: String!): AuthPayload!

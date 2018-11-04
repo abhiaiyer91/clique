@@ -693,9 +693,9 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@cliquelabs/types@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@cliquelabs/types/-/types-0.0.2.tgz#3d737e4e6fc06daffc5244af2eb7076e3548f135"
+"@cliquelabs/types@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@cliquelabs/types/-/types-0.0.5.tgz#aa222a173d04a525091f3cbd2dceb785d55be03f"
   dependencies:
     apollo-link-context "1.0.9"
     apollo-link-http "1.5.5"

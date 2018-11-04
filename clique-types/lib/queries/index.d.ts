@@ -7,7 +7,9 @@
  ******************************************************************************/
 declare const _default: {
     searchLocations: string;
+    friends: string;
     login: string;
+    me: string;
     signup: string;
 };
 export default _default;
