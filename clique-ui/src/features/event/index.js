@@ -44,7 +44,7 @@ export default function App() {
           </Card>
         </FlexItem>
         <FlexItem className={css({ paddingLeft: 32 })}>
-          <SubHeader>Assemble the crew</SubHeader>
+          <SubHeader>the crew</SubHeader>
           <Card>
             <CardBody>
               <div className={css({ maxWidth: 400, margin: "0 auto" })}>
@@ -65,7 +65,7 @@ export default function App() {
                       textAlign: "center"
                     })}
                   >
-                    You can add friends below. Send them an invite to your happy
+                    You can add friends to the left. Send them an invite to your happy
                     hour!
                   </Paragraph>
                 </div>
