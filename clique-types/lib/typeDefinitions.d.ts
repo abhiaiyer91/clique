@@ -7,6 +7,8 @@
  ******************************************************************************/
 declare const _default: {
     Address: string;
+    Event: string;
+    EventType: string;
     Location: string;
     AuthPayload: string;
     User: string;

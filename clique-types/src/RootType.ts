@@ -11,11 +11,14 @@ schema {
 
 type Query {
   locations(searchText: String!): [Location]
+  eventById(id: ID!): Event
+  eventsForUser: [Event]
   me: User
   friends: [User]
 }
 
 type Mutation {
+  createEvent(type: EventType): Event
   signup(name: String!, email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
 }

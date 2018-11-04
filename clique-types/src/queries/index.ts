@@ -6,6 +6,87 @@
  *
  ******************************************************************************/
 
+const createEvent = `mutation createEvent($type: EventType) {
+  createEvent(type: $type) {
+    id
+    location {
+      id
+      name
+      avatar
+      rating
+      reviewCount
+      url
+      address {
+        address1
+        address2
+        city
+        country
+        zipcode
+        state
+      }
+    }
+    participants {
+      id
+      avatar
+    }
+    eventTime
+    type
+  }
+}`;
+const eventById = `query eventById($id: ID!) {
+  eventById(id: $id) {
+    id
+    location {
+      id
+      name
+      avatar
+      rating
+      reviewCount
+      url
+      address {
+        address1
+        address2
+        city
+        country
+        zipcode
+        state
+      }
+    }
+    participants {
+      id
+      avatar
+    }
+    eventTime
+    type
+  }
+}`;
+const eventsForUser = `query eventsForUser {
+  eventsForUser {
+    id
+    location {
+      id
+      name
+      avatar
+      rating
+      reviewCount
+      url
+      address {
+        address1
+        address2
+        city
+        country
+        zipcode
+        state
+      }
+    }
+    participants {
+      id
+      avatar
+    }
+    eventTime
+    type
+  }
+}`;
 const searchLocations = `query searchLocations($searchText: String!) {
   locations(searchText: $searchText) {
     id
@@ -64,6 +145,9 @@ const signup = `mutation signup($name: String!, $email: String!, $password: Stri
 }`;
 
 export default {
+  createEvent,
+  eventById,
+  eventsForUser,
   searchLocations,
   friends,
   login,

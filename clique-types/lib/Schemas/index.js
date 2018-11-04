@@ -7,5 +7,5 @@
 *
 ******************************************************************************/
 exports.__esModule = true;
-exports.CoreRootType = "\ntype Query {\n  locations(searchText: String!): [Location]\n}\n";
+exports.CoreRootType = "\ntype Query {\n  locations(searchText: String!): [Location]\n  eventById(id: ID!): Event\n  eventsForUser: [Event]\n}\ntype Mutation {\n  createEvent(type: EventType): Event\n}\n";
 exports.UserRootType = "\ntype Query {\n  me: User\n  friends: [User]\n}\ntype Mutation {\n  signup(name: String!, email: String!, password: String!): AuthPayload!\n  login(email: String!, password: String!): AuthPayload!\n}\n";

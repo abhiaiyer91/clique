@@ -10,6 +10,11 @@
   export const CoreRootType = `
 type Query {
   locations(searchText: String!): [Location]
+  eventById(id: ID!): Event
+  eventsForUser: [Event]
+}
+type Mutation {
+  createEvent(type: EventType): Event
 }
 `;
 

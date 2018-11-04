@@ -18,6 +18,22 @@ type Address {
 }
 `;
 
+const Event = `
+type Event {
+  id: ID!
+  participants: [User]
+  location: Location
+  eventTime: Float
+  type: EventType!
+}
+`;
+
+const EventType = `
+enum EventType {
+  HAPPY_HOUR
+}
+`;
+
 const Location = `
 type Location {
   id: ID!
@@ -50,6 +66,8 @@ type User {
 
 export default {
   Address,
+  Event,
+  EventType,
   Location,
   AuthPayload,
   User

@@ -6,6 +6,9 @@
  *
  ******************************************************************************/
 declare const _default: {
+    createEvent: string;
+    eventById: string;
+    eventsForUser: string;
     searchLocations: string;
     friends: string;
     login: string;

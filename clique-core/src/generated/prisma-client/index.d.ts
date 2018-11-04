@@ -11,7 +11,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  user: (where?: UserWhereInput) => Promise<boolean>;
+  event: (where?: EventWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -33,51 +33,51 @@ export interface Prisma {
    * Queries
    */
 
-  user: (where: UserWhereUniqueInput) => User;
-  users: (
+  event: (where: EventWhereUniqueInput) => Event;
+  events: (
     args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
+      where?: EventWhereInput;
+      orderBy?: EventOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;
       first?: Int;
       last?: Int;
     }
-  ) => FragmentableArray<UserNode>;
-  usersConnection: (
+  ) => FragmentableArray<EventNode>;
+  eventsConnection: (
     args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
+      where?: EventWhereInput;
+      orderBy?: EventOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;
       first?: Int;
       last?: Int;
     }
-  ) => UserConnection;
+  ) => EventConnection;
   node: (args: { id: ID_Output }) => Node;
 
   /**
    * Mutations
    */
 
-  createUser: (data: UserCreateInput) => User;
-  updateUser: (
-    args: { data: UserUpdateInput; where: UserWhereUniqueInput }
-  ) => User;
-  updateManyUsers: (
-    args: { data: UserUpdateInput; where?: UserWhereInput }
+  createEvent: (data: EventCreateInput) => Event;
+  updateEvent: (
+    args: { data: EventUpdateInput; where: EventWhereUniqueInput }
+  ) => Event;
+  updateManyEvents: (
+    args: { data: EventUpdateInput; where?: EventWhereInput }
   ) => BatchPayload;
-  upsertUser: (
+  upsertEvent: (
     args: {
-      where: UserWhereUniqueInput;
-      create: UserCreateInput;
-      update: UserUpdateInput;
+      where: EventWhereUniqueInput;
+      create: EventCreateInput;
+      update: EventUpdateInput;
     }
-  ) => User;
-  deleteUser: (where: UserWhereUniqueInput) => User;
-  deleteManyUsers: (where?: UserWhereInput) => BatchPayload;
+  ) => Event;
+  deleteEvent: (where: EventWhereUniqueInput) => Event;
+  deleteManyEvents: (where?: EventWhereInput) => BatchPayload;
 
   /**
    * Subscriptions
@@ -87,9 +87,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  user: (
-    where?: UserSubscriptionWhereInput
-  ) => UserSubscriptionPayloadSubscription;
+  event: (
+    where?: EventSubscriptionWhereInput
+  ) => EventSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -100,27 +100,62 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
+export type EventType = "HAPPY_HOUR";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserCreateInput {
-  name: String;
+export type EventOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "locationId_ASC"
+  | "locationId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
+  | "eventTime_ASC"
+  | "eventTime_DESC"
+  | "type_ASC"
+  | "type_DESC";
+
+export type EventWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface EventCreateInput {
+  participants?: EventCreateparticipantsInput;
+  locationId?: ID_Input;
+  eventTime?: DateTimeInput;
+  type: EventType;
 }
 
-export interface UserUpdateInput {
-  name?: String;
+export interface EventCreateparticipantsInput {
+  set?: ID_Input[] | ID_Input;
 }
 
-export interface UserWhereInput {
+export interface EventUpdateInput {
+  participants?: EventUpdateparticipantsInput;
+  locationId?: ID_Input;
+  eventTime?: DateTimeInput;
+  type?: EventType;
+}
+
+export interface EventUpdateparticipantsInput {
+  set?: ID_Input[] | ID_Input;
+}
+
+export interface EventSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: EventWhereInput;
+  AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+}
+
+export interface EventWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -135,57 +170,70 @@ export interface UserWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
+  locationId?: ID_Input;
+  locationId_not?: ID_Input;
+  locationId_in?: ID_Input[] | ID_Input;
+  locationId_not_in?: ID_Input[] | ID_Input;
+  locationId_lt?: ID_Input;
+  locationId_lte?: ID_Input;
+  locationId_gt?: ID_Input;
+  locationId_gte?: ID_Input;
+  locationId_contains?: ID_Input;
+  locationId_not_contains?: ID_Input;
+  locationId_starts_with?: ID_Input;
+  locationId_not_starts_with?: ID_Input;
+  locationId_ends_with?: ID_Input;
+  locationId_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  eventTime?: DateTimeInput;
+  eventTime_not?: DateTimeInput;
+  eventTime_in?: DateTimeInput[] | DateTimeInput;
+  eventTime_not_in?: DateTimeInput[] | DateTimeInput;
+  eventTime_lt?: DateTimeInput;
+  eventTime_lte?: DateTimeInput;
+  eventTime_gt?: DateTimeInput;
+  eventTime_gte?: DateTimeInput;
+  type?: EventType;
+  type_not?: EventType;
+  type_in?: EventType[] | EventType;
+  type_not_in?: EventType[] | EventType;
+  AND?: EventWhereInput[] | EventWhereInput;
+  OR?: EventWhereInput[] | EventWhereInput;
+  NOT?: EventWhereInput[] | EventWhereInput;
 }
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface UserEdgeNode {
+export interface EventEdgeNode {
   cursor: String;
 }
 
-export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
-  node: <T = User>() => T;
+export interface EventEdge extends Promise<EventEdgeNode>, Fragmentable {
+  node: <T = Event>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdgeNode>>,
+export interface EventEdgeSubscription
+  extends Promise<AsyncIterator<EventEdgeNode>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = EventSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -203,81 +251,70 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface UserPreviousValuesNode {
-  id: ID_Output;
-  name: String;
+export interface AggregateEventNode {
+  count: Int;
 }
 
-export interface UserPreviousValues
-  extends Promise<UserPreviousValuesNode>,
+export interface AggregateEvent
+  extends Promise<AggregateEventNode>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  count: () => Promise<Int>;
 }
 
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValuesNode>>,
+export interface AggregateEventSubscription
+  extends Promise<AsyncIterator<AggregateEventNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface EventNode {
+  id: ID_Output;
+  participants: ID_Output[];
+  locationId?: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  eventTime?: DateTimeOutput;
+  type: EventType;
+}
+
+export interface Event extends Promise<EventNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  participants: () => Promise<ID_Output[]>;
+  locationId: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  eventTime: () => Promise<DateTimeOutput>;
+  type: () => Promise<EventType>;
+}
+
+export interface EventSubscription
+  extends Promise<AsyncIterator<EventNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  participants: () => Promise<AsyncIterator<ID_Output[]>>;
+  locationId: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  eventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  type: () => Promise<AsyncIterator<EventType>>;
 }
 
-export interface UserSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
+export interface EventConnectionNode {}
 
-export interface UserSubscriptionPayload
-  extends Promise<UserSubscriptionPayloadNode>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = User>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValues>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface UserNode {
-  id: ID_Output;
-  name: String;
-}
-
-export interface User extends Promise<UserNode>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<UserNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserConnectionNode {}
-
-export interface UserConnection
-  extends Promise<UserConnectionNode>,
+export interface EventConnection
+  extends Promise<EventConnectionNode>,
     Fragmentable {
   pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
-  aggregate: <T = AggregateUser>() => T;
+  edges: <T = FragmentableArray<EventEdgeNode>>() => T;
+  aggregate: <T = AggregateEvent>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnectionNode>>,
+export interface EventConnectionSubscription
+  extends Promise<AsyncIterator<EventConnectionNode>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEventSubscription>() => T;
 }
 
 export interface PageInfoNode {
@@ -303,21 +340,73 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUserNode {
-  count: Int;
+export interface EventSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
 }
 
-export interface AggregateUser
-  extends Promise<AggregateUserNode>,
+export interface EventSubscriptionPayload
+  extends Promise<EventSubscriptionPayloadNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  mutation: () => Promise<MutationType>;
+  node: <T = Event>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EventPreviousValues>() => T;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUserNode>>,
+export interface EventSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EventSubscriptionPayloadNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EventSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EventPreviousValuesSubscription>() => T;
 }
+
+export interface EventPreviousValuesNode {
+  id: ID_Output;
+  participants: ID_Output[];
+  locationId?: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  eventTime?: DateTimeOutput;
+  type: EventType;
+}
+
+export interface EventPreviousValues
+  extends Promise<EventPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  participants: () => Promise<ID_Output[]>;
+  locationId: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  eventTime: () => Promise<DateTimeOutput>;
+  type: () => Promise<EventType>;
+}
+
+export interface EventPreviousValuesSubscription
+  extends Promise<AsyncIterator<EventPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  participants: () => Promise<AsyncIterator<ID_Output[]>>;
+  locationId: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  eventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  type: () => Promise<AsyncIterator<EventType>>;
+}
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
@@ -329,18 +418,17 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 */
 export type String = string;
 
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
+
 export type Long = string;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
 
 /**
  * Type Defs
