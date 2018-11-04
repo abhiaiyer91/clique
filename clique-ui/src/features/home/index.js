@@ -2,33 +2,65 @@ import React, { useEffect, useCallback } from "react";
 import { css } from "emotion";
 import withRouter from "react-router-dom/withRouter";
 import Profile from "../../components/Profile";
-import useAuthToken from '../../hooks/useAuthToken';
+import useAuthToken from "../../hooks/useAuthToken";
 import Chilling from "../../icons/Chilling";
+import DrinkBeer from "../../icons/DrinkBeer";
 import SubHeader from "../../core/SubHeader";
 import Card from "../../core/Card";
 import Button from "../../core/Button";
 import Paragraph from "../../core/Paragraph";
 import CardBody from "../../core/CardBody";
+import { useModal } from "../../core/Modal";
 import { Flex, FlexAuto, FlexItem } from "../../core/Flex";
 
 function Home({ history }) {
-  const [value, setItem] = useAuthToken();
+  const [value] = useAuthToken();
+  const { showModal, closeModal } = useModal();
 
-  useEffect(
-    () => {
-      if (!value) {
-        history.replace("/login");
-      }
-    },
-    []
-  );
+  useEffect(() => {
+    if (!value) {
+      history.replace("/login");
+    }
+  }, []);
 
-  const routeToEvent = useCallback(
+  const goToEvent = useCallback(
     () => {
+      closeModal();
       return history.push("/new/event");
     },
     [history]
   );
+
+  const routeToEvent = useCallback(() => {
+    return showModal({
+      props: {
+        width: 400
+      },
+      Component: () => {
+        return (
+          <CardBody>
+            <h1
+              className={css({
+                fontSize: 32,
+                textAlign: "center",
+                margin: "16px 0"
+              })}
+            >
+              Pick an event
+            </h1>
+
+            <DrinkBeer />
+
+            <div className={css({ maxWidth: 240, margin: "16px auto" })}>
+              <Button onClick={goToEvent} className={css({ width: "100%" })}>
+                Happy Hour
+              </Button>
+            </div>
+          </CardBody>
+        );
+      }
+    });
+  }, []);
   return (
     <Flex>
       <FlexItem>

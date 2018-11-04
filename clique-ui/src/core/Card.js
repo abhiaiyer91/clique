@@ -7,6 +7,6 @@ export default styled("section")`
   border-radius: 4px;
   transition: all 0.15s ease;
   &:hover {
-    transform: translateY(-2px);
+    transform: ${props => props.noHover || "translateY(-2px)"};
   }
 `;

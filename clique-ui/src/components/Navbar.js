@@ -14,12 +14,16 @@ function SiteNavbar({ history }) {
     return window.location.assign("/login");
   });
 
+  const goHome = useCallback(() => {
+    return window.location.assign("/home");
+  });
+
   return (
     <Navbar>
       <Flex className={css({ width: "97%" })}>
-        <div>
+        <ClickTarget onClick={goHome}>
           <NavHeader className={css({ color: "#405dcf" })}>clique</NavHeader>
-        </div>
+        </ClickTarget>
         {!!value && (
           <FlexItem className={css({ textAlign: "right" })}>
             <ClickTarget
