@@ -33,12 +33,7 @@ createGateway({
     'x-b3-sampled',
     'x-b3-flags',
     'x-ot-span-context',
-    'x-csod-user-id',
-    'x-csod-userid',
-    'x-csod-default-culture-id',
-    'x-csod-default-cultureid',
-    'x-csod-corp-id',
-    'x-csod-corpid',
+    'x-userid',
   ],
 });
 

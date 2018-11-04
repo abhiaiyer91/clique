@@ -2,6 +2,7 @@ import { instrumentResolvers } from '@workpop/graphql-metrics';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { pick } from 'lodash';
 import { getLogger } from 'log4js';
+import { getUserId } from './utils';
 
 import createServiceResolvers from './createServiceResolvers';
 
@@ -31,10 +32,13 @@ export default async function createGateway({ config, server, typeDefinitions, h
     typeDefs: gql(typeDefinitions),
     resolvers: instrumentedResolvers,
     context: ({ req }) => {
+      const userId = getUserId(req);
+
       const forwardHeaders = headersToForward && pick(req.headers, ...headersToForward);
       return {
         headers: {
           ...forwardHeaders,
+          'x-userid': userId,
         },
       };
     },

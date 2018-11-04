@@ -1,3 +1,16 @@
-import ApolloClient from 'apollo-boost';
+import ApolloClient from "apollo-boost";
 
-export default new ApolloClient({ uri: 'http://localhost:4333/graphql' });
+export default function createClient(authToken) {
+  let headers = {};
+
+  if (!!authToken) {
+    headers = {
+      Authorization: `Bearer ${authToken}`
+    };
+  }
+
+  return new ApolloClient({
+    uri: "http://localhost:3000/graphql",
+    headers
+  });
+}

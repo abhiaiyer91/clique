@@ -7,5 +7,7 @@
  ******************************************************************************/
 declare const _default: {
     searchLocations: string;
+    login: string;
+    signup: string;
 };
 export default _default;

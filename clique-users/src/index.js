@@ -1,18 +1,31 @@
 import { ApolloServer, gql } from "apollo-server-express";
+import { instrumentResolvers } from "@workpop/graphql-metrics";
 import express from "express";
 import fs from "fs";
 import { prisma } from "./generated/prisma-client";
 import { PORT } from "./settings";
 import resolvers from "./resolvers";
 import typeDefs from "./schema";
+import logger, { logLevels } from "./logger";
 
 const server = express();
 
+const instrumentedResolvers = instrumentResolvers({
+  resolvers,
+  logLevels,
+  logFunc: (logLevel, ...args) => {
+    return logger[logLevel](...args);
+  }
+});
+
 const apolloServer = new ApolloServer({
   typeDefs: gql(typeDefs),
-  resolvers,
-  context: {
-    db: prisma,
+  resolvers: instrumentedResolvers,
+  context: ({ req }) => {
+    return {
+      db: prisma,
+      userId: req.headers['x-userid'],
+    };
   }
 });
 

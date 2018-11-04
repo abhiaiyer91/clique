@@ -1,4 +1,5 @@
 import { ApolloServer, gql } from "apollo-server-express";
+import { instrumentResolvers } from '@workpop/graphql-metrics';
 import express from "express";
 import fs from "fs";
 import { PORT } from "./settings";
@@ -10,7 +11,7 @@ const server = express();
 
 const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers: instrumentResolvers(resolvers),
 });
 
 apolloServer.applyMiddleware({ app: server });

@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { ApolloProvider } from "react-apollo";
-
 import Router from "react-router-dom/BrowserRouter";
 import Route from "react-router-dom/Route";
 import { css } from "emotion";
-import Client from "./client";
+import useAuthToken from "./hooks/useAuthToken";
+import createClient from "./client";
 
 import MaxWidth from "./core/MaxWidth";
 import { FlexColumn } from "./core/Flex";
@@ -14,8 +14,9 @@ import Event from "./features/event";
 import { Login, Signup } from "./features/authentication";
 
 export default function App() {
+  const [value] = useAuthToken();
   return (
-    <ApolloProvider client={Client}>
+    <ApolloProvider client={createClient(value)}>
       <SiteNavbar />
 
       <section className={css({ padding: "84px 0" })}>

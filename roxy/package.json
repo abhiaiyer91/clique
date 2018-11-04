@@ -1,18 +1,19 @@
 {
   "name": "@cliquelabs/roxy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "GraphQL Gateway for Clique",
   "main": "index.js",
   "author": "Abhi Aiyer",
   "license": "MIT",
   "dependencies": {
-    "@clique/types": "^0.0.8",
+    "@cliquelabs/types": "^0.0.1",
     "@workpop/graphql-metrics": "^0.4.0",
     "apollo-server-express": "^2.1.0",
     "babel-runtime": "^6.26.0",
     "express": "^4.16.4",
     "graphql": "^14.0.2",
     "influx": "^5.0.7",
+    "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "log4js": "^3.0.6",
     "morgan": "^1.9.1"

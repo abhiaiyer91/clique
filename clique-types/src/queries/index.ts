@@ -24,7 +24,29 @@ const searchLocations = `query searchLocations($searchText: String!) {
     }
   }
 }`;
+const login = `mutation login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    user {
+      id
+      name
+      email
+    }
+    token
+  }
+}`;
+const signup = `mutation signup($name: String!, $email: String!, $password: String!) {
+  signup(name: $name, email: $email, password: $password) {
+    user {
+      id
+      name
+      email
+    }
+    token
+  }
+}`;
 
 export default {
-  searchLocations
+  searchLocations,
+  login,
+  signup
 };
