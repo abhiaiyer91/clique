@@ -1,0 +1,13 @@
+enum EventType {
+  HAPPY_HOUR
+}
+
+type Event {
+  id: ID! @unique
+  participants: [ID!]
+  locationId: ID
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  eventTime: DateTime
+  type: EventType!
+}

@@ -1,0 +1,27 @@
+query eventById($id: ID!) {
+  eventById(id: $id) {
+    id
+    location {
+      id
+      name
+      avatar
+      rating
+      reviewCount
+      url
+      address {
+        address1
+        address2
+        city
+        country
+        zipcode
+        state
+      }
+    }
+    participants {
+      id
+      avatar
+    }
+    eventTime
+    type
+  }
+}

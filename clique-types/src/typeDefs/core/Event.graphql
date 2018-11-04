@@ -1,0 +1,7 @@
+type Event {
+  id: ID!
+  participants: [User]
+  location: Location
+  eventTime: Float
+  type: EventType!
+}

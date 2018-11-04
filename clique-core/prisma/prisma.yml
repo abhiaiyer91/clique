@@ -1,0 +1,6 @@
+endpoint: https://us1.prisma.sh/abhi-aiyer-ec90c4/core-service/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client/

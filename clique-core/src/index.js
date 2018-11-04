@@ -2,6 +2,7 @@ import { ApolloServer, gql } from "apollo-server-express";
 import { instrumentResolvers } from "@workpop/graphql-metrics";
 import express from "express";
 import fs from "fs";
+import { prisma } from "./generated/prisma-client";
 import { PORT } from "./settings";
 import resolvers from "./resolvers";
 import logger, { logLevels } from "./logger";
@@ -19,7 +20,13 @@ const instrumentedResolvers = instrumentResolvers({
 
 const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers: instrumentedResolvers
+  resolvers: instrumentedResolvers,
+  context: ({ req }) => {
+    return {
+      db: prisma,
+      userId: req.headers['x-userid'],
+    };
+  }
 });
 
 apolloServer.applyMiddleware({ app: server });
