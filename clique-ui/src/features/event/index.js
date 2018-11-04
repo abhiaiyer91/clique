@@ -1,30 +1,61 @@
-import React from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import { css } from "emotion";
+import { graphql, compose } from "react-apollo";
+import withRouter from "react-router-dom/withRouter";
+import gql from "graphql-tag";
+import queries from "@cliquelabs/types/lib/queries";
+import Loading from "../../core/Loading";
 import Card from "../../core/Card";
 import CardBody from "../../core/CardBody";
 import Header from "../../core/Header";
 import SubHeader from "../../core/SubHeader";
 import Paragraph from "../../core/Paragraph";
-import Autocomplete from "../../core/Autocomplete";
 import { Flex, FlexItem } from "../../core/Flex";
-import LocationSearch from "../../components/LocationSearch";
+import LocationDisplay from "../../components/LocationDisplay";
+import LocationCard from "../../components/LocationEventCard";
 import Friends from "../../components/Friends";
 import Crew from "../../icons/Hangout";
 
-function LocationCard() {
+const { eventById, eventFragment } = queries;
+
+function LoctionSection({ location }) {
+  const [locationToggle, setToggle] = useState(!location);
+
+  const setLocationToggle = useCallback(() => {
+    return setToggle(!locationToggle);
+  });
+
   return (
-    <Flex className={css({ marginBottom: 24 })}>
-      <FlexItem>
-        <Autocomplete
-          Component={LocationSearch}
-          placeholder="Search for a dope restaurant or bar..."
+    <Fragment>
+      <SubHeader>
+        {locationToggle || !location ? "Find a spot" : "Get Ready"}
+      </SubHeader>
+      {(locationToggle || !location) && (
+        <div className="animated fadeIn">
+          <LocationCard onEdit={setLocationToggle} />
+        </div>
+      )}
+      {!!location && (
+        <LocationDisplay
+          noHover
+          location={location}
+          editMode={locationToggle}
+          onEdit={setLocationToggle}
         />
-      </FlexItem>
-    </Flex>
+      )}
+    </Fragment>
   );
 }
 
-export default function App() {
+function App({ event, loading }) {
+  if (loading) {
+    return (
+      <div className={css({ height: "100%", padding: 100 })}>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className={css({ marginBottom: 24 })}>
@@ -35,8 +66,7 @@ export default function App() {
       <Flex>
         <FlexItem>
           <div className={css({ marginBottom: 32 })}>
-            <SubHeader>Find a spot</SubHeader>
-            <LocationCard />
+            <LoctionSection location={event.location} />
           </div>
           <SubHeader>Invite friends</SubHeader>
           <Card>
@@ -65,8 +95,8 @@ export default function App() {
                       textAlign: "center"
                     })}
                   >
-                    You can add friends to the left. Send them an invite to your happy
-                    hour!
+                    You can add friends to the left. Send them an invite to your
+                    happy hour!
                   </Paragraph>
                 </div>
               </div>
@@ -77,3 +107,23 @@ export default function App() {
     </div>
   );
 }
+
+export default compose(
+  withRouter,
+  graphql(gql(`${eventById}${eventFragment}`), {
+    options: ({ match }) => {
+      return {
+        variables: {
+          id: match.params.id
+        }
+      };
+    },
+    props: ({ data, ...rest }) => {
+      return {
+        event: data.eventById,
+        loading: data.loading,
+        ...rest
+      };
+    }
+  })
+)(App);

@@ -15,7 +15,7 @@ const ListWrapper = styled("div")`
   z-index: 5;
 `;
 
-export default function Autocomplete({ Component, placeholder }) {
+export default function Autocomplete({ Component, onSelect, placeholder }) {
   return (
     <Downshift
       onChange={selection => alert(`You selected ${selection.value}`)}
@@ -35,6 +35,7 @@ export default function Autocomplete({ Component, placeholder }) {
           <Input {...getInputProps()} placeholder={placeholder} />
           <ListWrapper>
             <Component
+              onSelect={onSelect}
               listProps={getMenuProps()}
               isOpen={isOpen}
               selectedItem={selectedItem}

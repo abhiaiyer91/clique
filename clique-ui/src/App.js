@@ -8,7 +8,7 @@ import createClient from "./client";
 
 import MaxWidth from "./core/MaxWidth";
 import { FlexColumn } from "./core/Flex";
-import { ModalProvider } from './core/Modal';
+import { ModalProvider } from "./core/Modal";
 import SiteNavbar from "./components/Navbar";
 import Home from "./features/home";
 import Event from "./features/event";
@@ -21,7 +21,7 @@ export default function App() {
       <ModalProvider>
         <SiteNavbar />
 
-        <section className={css({ padding: "84px 0" })}>
+        <section className={css({ padding: "78px 0px 24px" })}>
           <FlexColumn justify="center" height="100%">
             <MaxWidth maxWidth="1024" margin="0 auto">
               <Router>

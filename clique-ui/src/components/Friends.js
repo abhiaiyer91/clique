@@ -4,6 +4,7 @@ import { graphql } from "react-apollo";
 import queries from "@cliquelabs/types/lib/queries";
 import gql from "graphql-tag";
 import Link from "../core/Link";
+import Loading from "../core/Loading";
 import CardBody from "../core/CardBody";
 import ListItem from "../core/ListItem";
 import Paragraph from "../core/Paragraph";
@@ -11,7 +12,14 @@ import FriendsGroup from "../icons/Friends";
 
 const { friends } = queries;
 
-function Friends({ friendsList = [] }) {
+function Friends({ friendsList = [], loading }) {
+  if (loading) {
+    return (
+      <div className={css({ padding: 16 })}>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <Fragment>
       {friendsList.length === 0 ? (

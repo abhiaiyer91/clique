@@ -16,7 +16,7 @@ import CardBody from "../../core/CardBody";
 import { useModal } from "../../core/Modal";
 import { Flex, FlexAuto, FlexItem } from "../../core/Flex";
 
-const { createEvent } = queries;
+const { createEvent, eventFragment } = queries;
 
 let CreateEvent = function CreateEvent({ create, goToEvent }) {
   const submit = useCallback(() => {
@@ -38,7 +38,7 @@ let CreateEvent = function CreateEvent({ create, goToEvent }) {
   );
 };
 
-CreateEvent = graphql(gql(createEvent), {
+CreateEvent = graphql(gql(`${eventFragment}${createEvent}`), {
   name: "create"
 })(CreateEvent);
 
@@ -75,7 +75,7 @@ function Home({ history }) {
                 margin: "16px 0"
               })}
             >
-              Pick an event
+              Pick an event!
             </h1>
 
             <DrinkBeer />

@@ -1,13 +1,8 @@
 import React from "react";
-import { css } from "emotion";
 import styled from "react-emotion";
 import gql from "graphql-tag";
 import { graphql, compose } from "react-apollo";
-import ListItem from "../core/ListItem";
-import { Flex } from "../core/Flex";
-import Link from "../core/Link";
-import Paragraph from "../core/Paragraph";
-import RatingsWidget from "./RatingsWidget";
+import LocationDisplay from "./LocationDisplay";
 
 const List = styled("ul")`
   padding: 0;
@@ -21,6 +16,7 @@ const List = styled("ul")`
 function LocationSearch({
   items = [],
   isOpen,
+  onSelect,
   inputValue,
   listProps,
   ...rest
@@ -29,24 +25,13 @@ function LocationSearch({
     <List {...listProps}>
       {isOpen && inputValue
         ? items.map((item, index) => (
-            <ListItem {...item}>
-              <Flex className={css({ marginTop: 4 })}>
-                {!!item.rating && (
-                  <div className={css({ alignSelf: "center" })}>
-                    <RatingsWidget currentRating={item.rating} />
-                  </div>
-                )}
-                {!!item.reviewCount && (
-                  <Paragraph
-                    className={css({ alignSelf: "center", marginLeft: 10, fontSize: 11 })}
-                  >
-                    <Link href={item.url} target="_blank">
-                      Reviews ({item.reviewCount})
-                    </Link>
-                  </Paragraph>
-                )}
-              </Flex>
-            </ListItem>
+            <LocationDisplay
+              onSelect={() => {
+                console.log(item.id, 'YOYOOO')
+                return onSelect(item.id);
+              }}
+              location={item}
+            />
           ))
         : null}
     </List>
