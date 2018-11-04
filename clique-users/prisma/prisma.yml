@@ -1,5 +1,6 @@
-endpoint: http://localhost:4466/clique-users
+endpoint: https://us1.prisma.sh/abhi-aiyer-ec90c4/cliqueusers/dev
 datamodel: datamodel.prisma
+
 generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client/

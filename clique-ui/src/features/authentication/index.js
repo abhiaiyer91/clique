@@ -10,6 +10,7 @@ import Card from "../../core/Card";
 import CardBody from "../../core/CardBody";
 import { Flex, FlexItem } from "../../core/Flex";
 import InputWithLabel from "../../core/InputWithLabel";
+import AuthForm from "../../components/AuthForm";
 
 function Auth({ children, type = "LOGIN" }) {
   return (
@@ -44,18 +45,11 @@ function Auth({ children, type = "LOGIN" }) {
               >
                 <Paragraph
                   className={css({
-                    marginBottom: 8,
-                    textAlign: "center"
-                  })}
-                >
-                  Clique helps you plan events with your friends.
-                </Paragraph>
-                <Paragraph
-                  className={css({
                     color: "rgba(0, 0, 0, 0.56)",
                     textAlign: "center"
                   })}
                 >
+                  Clique helps you plan events with your friends.
                   {type === "LOGIN" ? "Login" : "Sign up"}, create an event, and
                   start planning get togethers easily.
                 </Paragraph>
@@ -71,10 +65,7 @@ function Auth({ children, type = "LOGIN" }) {
 export const Login = withRouter(function Login({ history }) {
   return (
     <Auth>
-      <InputWithLabel type="text" label="Email" />
-      <InputWithLabel type="text" label="Password" />
-
-      <Button className={css({ width: "100%", marginTop: 12 })}>Log In</Button>
+      <AuthForm type="LOGIN" />
       <Paragraph
         className={css({
           margin: "16px 0"
@@ -98,12 +89,7 @@ export const Login = withRouter(function Login({ history }) {
 export const Signup = withRouter(function Signup({ history }) {
   return (
     <Auth type="SIGNUP">
-      <InputWithLabel type="text" label="Name" />
-      <InputWithLabel type="text" label="Email" />
-      <InputWithLabel type="text" label="Password" />
-      <Button className={css({ width: "100%", marginTop: 16 })}>
-        Log In
-      </Button>
+      <AuthForm type="SIGNUP" />
       <Paragraph
         className={css({
           margin: "16px 0"

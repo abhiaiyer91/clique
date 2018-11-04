@@ -9,6 +9,7 @@ import Client from "./client";
 import MaxWidth from "./core/MaxWidth";
 import { FlexColumn } from "./core/Flex";
 import SiteNavbar from "./components/Navbar";
+import Home from "./features/home";
 import Event from "./features/event";
 import { Login, Signup } from "./features/authentication";
 
@@ -22,6 +23,7 @@ export default function App() {
           <MaxWidth maxWidth="1024" margin="0 auto">
             <Router>
               <Fragment>
+                <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
                 <Route path="/new/event/:id" component={Event} />
