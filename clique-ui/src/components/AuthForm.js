@@ -22,7 +22,7 @@ function AuthForm({ type = "LOGIN", login, signup, history }) {
         history.replace("/home");
       }
     },
-    [value]
+    []
   );
 
   let initialValues = {
@@ -56,7 +56,6 @@ function AuthForm({ type = "LOGIN", login, signup, history }) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
         if (type === "LOGIN") {
           return login({ variables: values })
             .then(result => {
@@ -64,7 +63,7 @@ function AuthForm({ type = "LOGIN", login, signup, history }) {
 
               setItem(token);
               setSubmitting(false);
-              return history.replace("/home");
+              return window.location.assign("/home");
             })
             .catch(e => {
               console.error(e);
@@ -77,7 +76,7 @@ function AuthForm({ type = "LOGIN", login, signup, history }) {
 
               setItem(token);
               setSubmitting(false);
-              return history.replace("/home");
+              return window.location.assign("/home");
             })
             .catch(e => {
               console.error(e);

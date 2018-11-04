@@ -1,17 +1,25 @@
 import { ApolloServer, gql } from "apollo-server-express";
-import { instrumentResolvers } from '@workpop/graphql-metrics';
+import { instrumentResolvers } from "@workpop/graphql-metrics";
 import express from "express";
 import fs from "fs";
 import { PORT } from "./settings";
 import resolvers from "./resolvers";
-
-const typeDefs = fs.readFileSync("./src/schema/schema.graphql", "utf-8");
+import logger, { logLevels } from "./logger";
+import typeDefs from "./schema";
 
 const server = express();
 
+const instrumentedResolvers = instrumentResolvers({
+  resolvers,
+  logLevels,
+  logFunc: (logLevel, ...args) => {
+    return logger[logLevel](...args);
+  }
+});
+
 const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers: instrumentResolvers(resolvers),
+  resolvers: instrumentedResolvers
 });
 
 apolloServer.applyMiddleware({ app: server });

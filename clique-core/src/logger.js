@@ -1,6 +1,6 @@
 import { getLogger } from "log4js";
 
-const logger = getLogger("services:user");
+const logger = getLogger("services:core");
 
 logger.level = "debug";
 

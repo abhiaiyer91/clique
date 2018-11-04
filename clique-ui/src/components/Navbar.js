@@ -20,19 +20,21 @@ function SiteNavbar({ history }) {
         <div>
           <NavHeader className={css({ color: "#405dcf" })}>clique</NavHeader>
         </div>
-        <FlexItem className={css({ textAlign: "right" })}>
-          <ClickTarget
-            onClick={logout}
-            className={css({
-              color: "#405dcf",
-              fontWeight: 700,
-              fontSize: 13,
-              textDecoration: "underline"
-            })}
-          >
-            Logout
-          </ClickTarget>
-        </FlexItem>
+        {!!value && (
+          <FlexItem className={css({ textAlign: "right" })}>
+            <ClickTarget
+              onClick={logout}
+              className={css({
+                color: "#405dcf",
+                fontWeight: 700,
+                fontSize: 13,
+                textDecoration: "underline"
+              })}
+            >
+              Log out
+            </ClickTarget>
+          </FlexItem>
+        )}
       </Flex>
     </Navbar>
   );

@@ -1,6 +1,6 @@
 import styled from "react-emotion";
 
-export default styled("navbar")`
+export default styled("nav")`
   width: 100%;
   padding: 16px;
   background-color: white;

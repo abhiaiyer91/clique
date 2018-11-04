@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { css } from "emotion";
+import withRouter from "react-router-dom/withRouter";
 import Profile from "../../components/Profile";
+import useAuthToken from '../../hooks/useAuthToken';
 import Chilling from "../../icons/Chilling";
 import SubHeader from "../../core/SubHeader";
 import Card from "../../core/Card";
@@ -9,7 +11,24 @@ import Paragraph from "../../core/Paragraph";
 import CardBody from "../../core/CardBody";
 import { Flex, FlexAuto, FlexItem } from "../../core/Flex";
 
-export default function Home() {
+function Home({ history }) {
+  const [value, setItem] = useAuthToken();
+
+  useEffect(
+    () => {
+      if (!value) {
+        history.replace("/login");
+      }
+    },
+    []
+  );
+
+  const routeToEvent = useCallback(
+    () => {
+      return history.push("/new/event");
+    },
+    [history]
+  );
   return (
     <Flex>
       <FlexItem>
@@ -20,7 +39,7 @@ export default function Home() {
               className={css({
                 maxWidth: 360,
                 margin: "0 auto",
-                padding: '16px 0 0',
+                padding: "16px 0 0"
               })}
             >
               <Chilling width="100%" />
@@ -44,7 +63,10 @@ export default function Home() {
                   margin: "0 auto"
                 })}
               >
-                <Button className={css({ width: "100%", margin: "24px 0" })}>
+                <Button
+                  onClick={routeToEvent}
+                  className={css({ width: "100%", margin: "24px 0" })}
+                >
                   Setup an Event
                 </Button>
               </div>
@@ -63,3 +85,5 @@ export default function Home() {
     </Flex>
   );
 }
+
+export default withRouter(Home);

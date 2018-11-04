@@ -27,7 +27,7 @@ export default function App() {
                 <Route path="/home" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/new/event/:id" component={Event} />
+                <Route path="/new/event" component={Event} />
               </Fragment>
             </Router>
           </MaxWidth>

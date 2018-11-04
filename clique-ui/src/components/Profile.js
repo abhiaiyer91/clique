@@ -69,7 +69,7 @@ function Profile({ user }) {
               }
             })}
           >
-            Edit your Address
+            Edit my Address
           </ClickTarget>
         )}
       </div>

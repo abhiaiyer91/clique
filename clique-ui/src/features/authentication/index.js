@@ -9,7 +9,6 @@ import MaxWidth from "../../core/MaxWidth";
 import Card from "../../core/Card";
 import CardBody from "../../core/CardBody";
 import { Flex, FlexItem } from "../../core/Flex";
-import InputWithLabel from "../../core/InputWithLabel";
 import AuthForm from "../../components/AuthForm";
 
 function Auth({ children, type = "LOGIN" }) {
