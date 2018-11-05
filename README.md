@@ -1,9 +1,8 @@
 # clique
+An application that helps you assemble groups to go to events in your area.
 
 ## Table of Contents
 * [Getting Started](#getting-started)
-
-An application that helps you assemble groups to go to events in your area.
 
 | Package       | Description  |
 | :------------- | :------------|
