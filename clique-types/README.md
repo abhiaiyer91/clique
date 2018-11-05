@@ -1,6 +1,6 @@
-# @workpop/frontline-types
+# @clique/types
 
-Schema generation for Project Neon
+Schema generation for clique
 
 ## Tools
 * [`apollo-server`](https://www.apollographql.com/server) - Used for the Mock GraphQL server.
@@ -40,19 +40,19 @@ When `types` builds it runs these commands:
 - `generate-types` &mdash; Takes all type definitions from the `typeDefs` folder and exports them to the `typeDefintions` file. This makes each type exportable by type name.
 
 ```js
-import { Note } from '@workpop/frontline-types/lib/typeDefintions';
+import { Note } from '@clique/types/lib/typeDefintions';
 ```
 
 - `generate-schema-exports` &mdash; Takes all Root types from the `Schemas` folder and exports them to `Schemas/index`. This makes each Root type exportable by file name. The convention for Root Types is: `__DOMAIN_NAME__RootType.graphql`.
 
 ```js
-import { NoteRootType } from '@workpop/frontline-types/lib/Schemas';
+import { NoteRootType } from '@clique/types/lib/Schemas';
 ```
 
 - `merge-roottypes` &mdash; Takes all Root types from the `Schemas` folder, merges them into a single Root type, and exports it to `src/RootType`. This can be used for the `explorer-schema` or even in a GraphQL gateway like `Roxy`.
 
 ```js
-import RootType from '@workpop/frontline-types/lib/RootType';
+import RootType from '@clique/types/lib/RootType';
 ```
 
 - `generate-schema-json` &mdash; Runs the mock server and generates a `schema.json` file at `src/queries/schema.json`. This file is primarily used to generate types for `iOS` and `Android`. Additionally it can be used for local GraphQL tools like `graphql-config` or `eslint-graphql`.
@@ -64,11 +64,11 @@ import RootType from '@workpop/frontline-types/lib/RootType';
 - `generate-service-bindings` &mdash; Takes each Schema from the `Schemas` folder and creates a GraphQL Binding Factory. You can then import them in your service or pass it to `Roxy` to create a GraphQL gateway.
 
 ```js
-import createNoteBinding from '@workpop/frontline-types/lib/ServiceBindings/NoteBinding';
+import createNoteBinding from '@clique/types/lib/ServiceBindings/NoteBinding';
 
 const noteBinding = createNoteBinding({
   url: 'http://note-svc/graphql',
-  headersToForward: ['wp-scifi']
+  headersToForward: ['userid']
 });
 
 const projection = `
