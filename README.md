@@ -8,6 +8,7 @@ An application that helps you assemble groups to go to events in your area.
 | :------------- | :------------|
 | [`clique-core`](https://github.com/abhiaiyer91/clique/tree/master/clique-core) | Service that manages everything to do with events and groups |
 | [`clique-users`](https://github.com/abhiaiyer91/clique/tree/master/clique-users) | User Service |
+| [`clique-ui`](https://github.com/abhiaiyer91/clique/tree/master/clique-ui) | Front End Service |
 | [`clique-types`](https://github.com/abhiaiyer91/clique/tree/master/clique-types) | Central Types Repository |
 | [`roxy`](https://github.com/abhiaiyer91/clique/tree/master/roxy) | GraphQL Proxy |
 
