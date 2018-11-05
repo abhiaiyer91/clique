@@ -1,4 +1,4 @@
-# @clique/types
+# @cliquelabs/types
 
 Schema generation for clique
 
@@ -40,19 +40,19 @@ When `types` builds it runs these commands:
 - `generate-types` &mdash; Takes all type definitions from the `typeDefs` folder and exports them to the `typeDefintions` file. This makes each type exportable by type name.
 
 ```js
-import { Note } from '@clique/types/lib/typeDefintions';
+import { Note } from '@cliquelabs/types/lib/typeDefintions';
 ```
 
 - `generate-schema-exports` &mdash; Takes all Root types from the `Schemas` folder and exports them to `Schemas/index`. This makes each Root type exportable by file name. The convention for Root Types is: `__DOMAIN_NAME__RootType.graphql`.
 
 ```js
-import { NoteRootType } from '@clique/types/lib/Schemas';
+import { NoteRootType } from '@cliquelabs/types/lib/Schemas';
 ```
 
 - `merge-roottypes` &mdash; Takes all Root types from the `Schemas` folder, merges them into a single Root type, and exports it to `src/RootType`. This can be used for the `explorer-schema` or even in a GraphQL gateway like `Roxy`.
 
 ```js
-import RootType from '@clique/types/lib/RootType';
+import RootType from '@cliquelabs/types/lib/RootType';
 ```
 
 - `generate-schema-json` &mdash; Runs the mock server and generates a `schema.json` file at `src/queries/schema.json`. This file is primarily used to generate types for `iOS` and `Android`. Additionally it can be used for local GraphQL tools like `graphql-config` or `eslint-graphql`.
