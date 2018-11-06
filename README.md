@@ -22,3 +22,14 @@ Make sure to `cd` into the service you want to work in and run the command below
 
 `yarn install --force`
 
+## Prisma services
+
+For `prisma` based services follow the getting started commands below.
+
+`cd clique-__SERVICE_NAME__`
+
+`docker-compose up -d`
+
+`prisma deploy`
+
+`prisma generate`
