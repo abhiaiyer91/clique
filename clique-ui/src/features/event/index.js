@@ -78,7 +78,9 @@ function App({ event, loading }) {
           <Card>
             <CardBody>
               <div className={css({ maxWidth: 400, margin: "0 auto" })}>
-                <Crew width="100%" />
+                <div className={css({ maxWidth: 300, margin: "0 auto" })}>
+                  <Crew width="100%" />
+                </div>
 
                 <h2
                   className={css({

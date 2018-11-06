@@ -1,5 +1,9 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateEvent {
+        typeDefs: /* GraphQL */ `type AggregateCliq {
+  count: Int!
+}
+
+type AggregateEvent {
   count: Int!
 }
 
@@ -7,16 +11,141 @@ type BatchPayload {
   count: Long!
 }
 
+type Cliq {
+  id: ID!
+  participants: [ID!]!
+  pendingParticipants: [ID!]!
+}
+
+type CliqConnection {
+  pageInfo: PageInfo!
+  edges: [CliqEdge]!
+  aggregate: AggregateCliq!
+}
+
+input CliqCreateInput {
+  participants: CliqCreateparticipantsInput
+  pendingParticipants: CliqCreatependingParticipantsInput
+}
+
+input CliqCreateOneInput {
+  create: CliqCreateInput
+  connect: CliqWhereUniqueInput
+}
+
+input CliqCreateparticipantsInput {
+  set: [ID!]
+}
+
+input CliqCreatependingParticipantsInput {
+  set: [ID!]
+}
+
+type CliqEdge {
+  node: Cliq!
+  cursor: String!
+}
+
+enum CliqOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type CliqPreviousValues {
+  id: ID!
+  participants: [ID!]!
+  pendingParticipants: [ID!]!
+}
+
+type CliqSubscriptionPayload {
+  mutation: MutationType!
+  node: Cliq
+  updatedFields: [String!]
+  previousValues: CliqPreviousValues
+}
+
+input CliqSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CliqWhereInput
+  AND: [CliqSubscriptionWhereInput!]
+  OR: [CliqSubscriptionWhereInput!]
+  NOT: [CliqSubscriptionWhereInput!]
+}
+
+input CliqUpdateDataInput {
+  participants: CliqUpdateparticipantsInput
+  pendingParticipants: CliqUpdatependingParticipantsInput
+}
+
+input CliqUpdateInput {
+  participants: CliqUpdateparticipantsInput
+  pendingParticipants: CliqUpdatependingParticipantsInput
+}
+
+input CliqUpdateOneInput {
+  create: CliqCreateInput
+  update: CliqUpdateDataInput
+  upsert: CliqUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: CliqWhereUniqueInput
+}
+
+input CliqUpdateparticipantsInput {
+  set: [ID!]
+}
+
+input CliqUpdatependingParticipantsInput {
+  set: [ID!]
+}
+
+input CliqUpsertNestedInput {
+  update: CliqUpdateDataInput!
+  create: CliqCreateInput!
+}
+
+input CliqWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [CliqWhereInput!]
+  OR: [CliqWhereInput!]
+  NOT: [CliqWhereInput!]
+}
+
+input CliqWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 type Event {
   id: ID!
-  participants: [ID!]!
   locationId: ID
+  cliq: Cliq
   createdAt: DateTime!
   updatedAt: DateTime!
   eventTime: DateTime
   type: EventType!
+  status: EventStatus!
 }
 
 type EventConnection {
@@ -26,14 +155,11 @@ type EventConnection {
 }
 
 input EventCreateInput {
-  participants: EventCreateparticipantsInput
   locationId: ID
+  cliq: CliqCreateOneInput
   eventTime: DateTime
   type: EventType!
-}
-
-input EventCreateparticipantsInput {
-  set: [ID!]
+  status: EventStatus!
 }
 
 type EventEdge {
@@ -54,16 +180,25 @@ enum EventOrderByInput {
   eventTime_DESC
   type_ASC
   type_DESC
+  status_ASC
+  status_DESC
 }
 
 type EventPreviousValues {
   id: ID!
-  participants: [ID!]!
   locationId: ID
   createdAt: DateTime!
   updatedAt: DateTime!
   eventTime: DateTime
   type: EventType!
+  status: EventStatus!
+}
+
+enum EventStatus {
+  COMPLETED
+  PLANNED
+  INCOMPLETE
+  CANCELLED
 }
 
 type EventSubscriptionPayload {
@@ -89,14 +224,11 @@ enum EventType {
 }
 
 input EventUpdateInput {
-  participants: EventUpdateparticipantsInput
   locationId: ID
+  cliq: CliqUpdateOneInput
   eventTime: DateTime
   type: EventType
-}
-
-input EventUpdateparticipantsInput {
-  set: [ID!]
+  status: EventStatus
 }
 
 input EventWhereInput {
@@ -128,6 +260,7 @@ input EventWhereInput {
   locationId_not_starts_with: ID
   locationId_ends_with: ID
   locationId_not_ends_with: ID
+  cliq: CliqWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -156,6 +289,10 @@ input EventWhereInput {
   type_not: EventType
   type_in: [EventType!]
   type_not_in: [EventType!]
+  status: EventStatus
+  status_not: EventStatus
+  status_in: [EventStatus!]
+  status_not_in: [EventStatus!]
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]
@@ -168,6 +305,12 @@ input EventWhereUniqueInput {
 scalar Long
 
 type Mutation {
+  createCliq(data: CliqCreateInput!): Cliq!
+  updateCliq(data: CliqUpdateInput!, where: CliqWhereUniqueInput!): Cliq
+  updateManyCliqs(data: CliqUpdateInput!, where: CliqWhereInput): BatchPayload!
+  upsertCliq(where: CliqWhereUniqueInput!, create: CliqCreateInput!, update: CliqUpdateInput!): Cliq!
+  deleteCliq(where: CliqWhereUniqueInput!): Cliq
+  deleteManyCliqs(where: CliqWhereInput): BatchPayload!
   createEvent(data: EventCreateInput!): Event!
   updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   updateManyEvents(data: EventUpdateInput!, where: EventWhereInput): BatchPayload!
@@ -194,6 +337,9 @@ type PageInfo {
 }
 
 type Query {
+  cliq(where: CliqWhereUniqueInput!): Cliq
+  cliqs(where: CliqWhereInput, orderBy: CliqOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Cliq]!
+  cliqsConnection(where: CliqWhereInput, orderBy: CliqOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CliqConnection!
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
@@ -201,6 +347,7 @@ type Query {
 }
 
 type Subscription {
+  cliq(where: CliqSubscriptionWhereInput): CliqSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
 }
 `

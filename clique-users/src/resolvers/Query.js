@@ -47,6 +47,6 @@ export default {
       }
     ];
 
-    return friends;
+    return [];
   }
 };
