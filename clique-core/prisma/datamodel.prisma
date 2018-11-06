@@ -9,10 +9,29 @@ enum EventStatus {
   CANCELLED
 }
 
+enum InviteStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
+}
+
 type Cliq {
-  id: ID! @unqiue
+  id: ID! @unique
   participants: [ID!]
   pendingParticipants: [ID!]
+}
+
+type Invitation {
+  id: ID! @unique
+  eventId: ID!
+  participantId: ID # if the user has not accepted an invite, then this will be undefined
+  email: String
+  code: ID!
+  sentAt: DateTime!
+  readAt: DateTime!
+  acceptedAt: DateTime!
+  declinedAt: DateTime!
+  status: InviteStatus
 }
 
 type Event {

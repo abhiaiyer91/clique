@@ -11,8 +11,10 @@
     "fb": "^2.0.0",
     "graphql": "^14.0.2",
     "influx": "^5.0.7",
+    "lodash": "^4.17.11",
     "log4js": "^3.0.6",
     "prisma-client-lib": "^1.19.3",
+    "uuid": "^3.3.2",
     "yelp-fusion": "^2.2.1"
   },
   "scripts": {
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-preset-env": "^1.7.0",
     "dotenv": "^6.1.0"
   }
