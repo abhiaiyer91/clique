@@ -9,11 +9,16 @@ enum EventStatus {
   CANCELLED
 }
 
-type Event {
-  id: ID! @unique
+type Cliq {
+  id: ID! @unqiue
   participants: [ID!]
   pendingParticipants: [ID!]
+}
+
+type Event {
+  id: ID! @unique
   locationId: ID
+  cliq: Cliq
   createdAt: DateTime!
   updatedAt: DateTime!
   eventTime: DateTime
