@@ -642,6 +642,20 @@ get-stream@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npmjs.org/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
 
+graphql-binding-gateway@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/graphql-binding-gateway/-/graphql-binding-gateway-0.0.1.tgz#47ae5e16ea78d076c9a97592a532f1b7394b2d64"
+  dependencies:
+    "@workpop/graphql-metrics" "^0.4.0"
+    apollo-server-express "^2.1.0"
+    babel-runtime "^6.26.0"
+    express "^4.16.4"
+    graphql "^14.0.2"
+    influx "^5.0.7"
+    lodash "^4.17.11"
+    log4js "^3.0.6"
+    morgan "^1.9.1"
+
 graphql-binding@^2.2.5:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/graphql-binding/-/graphql-binding-2.2.6.tgz#a006dd56de3eb6e90db8e091cee87645095ec0e2"

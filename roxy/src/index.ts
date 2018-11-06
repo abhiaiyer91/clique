@@ -1,7 +1,8 @@
 import * as express from 'express';
-import { get, head, isArray, keys } from 'lodash';
+import { get, pick, head, isArray } from 'lodash';
 import * as morgan from 'morgan';
-import createGateway from './gateway';
+import createGateway from 'graphql-binding-gateway';
+import { getUserId } from './gateway/utils';
 import logger from './logger';
 import typeDefinitions from './schema';
 import config from './serviceMap';
@@ -25,16 +26,27 @@ createGateway({
   config,
   server,
   typeDefinitions,
-  headersToForward: [
-    'x-request-id',
-    'x-b3-traceid',
-    'x-b3-spanid',
-    'x-b3-parentspanid',
-    'x-b3-sampled',
-    'x-b3-flags',
-    'x-ot-span-context',
-    'x-userid',
-  ],
+  context: ({ req }) => {
+    const headersToForward = [
+      'x-request-id',
+      'x-b3-traceid',
+      'x-b3-spanid',
+      'x-b3-parentspanid',
+      'x-b3-sampled',
+      'x-b3-flags',
+      'x-ot-span-context',
+      'x-userid',
+    ];
+    const userId = getUserId(req);
+
+    const forwardHeaders = headersToForward && pick(req.headers, ...headersToForward);
+    return {
+      headers: {
+        ...forwardHeaders,
+        'x-userid': userId,
+      },
+    };
+  },
 });
 
 server.get('/', (_req, res) => {

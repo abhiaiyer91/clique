@@ -9,12 +9,10 @@
 
   import { CoreRootType } from '../Schemas'
   import ServiceBinding, { buildRootSchema } from './Binding';
-
   interface ICreateBinding {
     uri: string,
     headersToForward: string[]
   }
-
   export default function CoreRootTypeBinding({ uri, headersToForward }: ICreateBinding) {
     return new ServiceBinding({
       typeDefs: buildRootSchema(CoreRootType),
