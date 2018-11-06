@@ -8,11 +8,12 @@
 ******************************************************************************/
 exports.__esModule = true;
 var Schemas_1 = require("../Schemas");
-var Binding_1 = require("./Binding");
+var graphql_service_binding_1 = require("graphql-service-binding");
+var typeDefinitions_1 = require("../typeDefinitions");
 function UserRootTypeBinding(_a) {
     var uri = _a.uri, headersToForward = _a.headersToForward;
-    return new Binding_1["default"]({
-        typeDefs: Binding_1.buildRootSchema(Schemas_1.UserRootType),
+    return new graphql_service_binding_1["default"]({
+        typeDefs: graphql_service_binding_1.buildRootSchema(Schemas_1.UserRootType, typeDefinitions_1["default"]),
         uri: uri,
         headersToForward: headersToForward
     });
