@@ -1,0 +1,6 @@
+type Invitation {
+  id: ID!
+  eventId: ID!
+  name: String!
+  email: String!
+}
