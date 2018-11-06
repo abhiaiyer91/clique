@@ -22,7 +22,7 @@ function SiteNavbar({ history }) {
     <Navbar>
       <Flex className={css({ width: "97%" })}>
         <ClickTarget onClick={goHome}>
-          <NavHeader className={css({ color: "#405dcf" })}>clique</NavHeader>
+          <NavHeader className={css({ color: "#405dcf" })}>cliq</NavHeader>
         </ClickTarget>
         {!!value && (
           <FlexItem className={css({ textAlign: "right" })}>

@@ -8,14 +8,17 @@
 ******************************************************************************/
 
   import { UserRootType } from '../Schemas'
-  import ServiceBinding, { buildRootSchema } from './Binding';
+  import ServiceBinding, { buildRootSchema } from 'graphql-service-binding';
+  import typeDefinitions from '../typeDefinitions';
+
   interface ICreateBinding {
     uri: string,
     headersToForward: string[]
   }
+
   export default function UserRootTypeBinding({ uri, headersToForward }: ICreateBinding) {
     return new ServiceBinding({
-      typeDefs: buildRootSchema(UserRootType),
+      typeDefs: buildRootSchema(UserRootType, typeDefinitions),
       uri,
       headersToForward,
     });

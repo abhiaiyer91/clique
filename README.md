@@ -26,6 +26,8 @@ Make sure to `cd` into the service you want to work in and run the command below
 
 For `prisma` based services follow the getting started commands below.
 
+`npm install -g prisma`
+
 `cd clique-__SERVICE_NAME__`
 
 `docker-compose up -d`

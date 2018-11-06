@@ -24,7 +24,7 @@ function Auth({ children, type = "LOGIN" }) {
         >
           {type === "LOGIN" ? "Login in to " : "Sign up for "}
           <span className={css({ color: "#405dcf", fontSize: 32 })}>
-            clique.
+            cliq.
           </span>
         </h1>
       </Flex>
@@ -48,7 +48,7 @@ function Auth({ children, type = "LOGIN" }) {
                     textAlign: "center"
                   })}
                 >
-                  Clique helps you plan events with your friends.
+                  Cliq helps you plan events with your friends.
                   {type === "LOGIN" ? "Login" : "Sign up"}, create an event, and
                   start planning get togethers easily.
                 </Paragraph>
@@ -95,7 +95,7 @@ export const Signup = withRouter(function Signup({ history }) {
         })}
       >
         By continuing using any of the actions above you acknowledge that you
-        have read and agreed to clique's Terms of Service and Privacy Policy.
+        have read and agreed to cliq's Terms of Service and Privacy Policy.
       </Paragraph>
       <Button
         onClick={() => {
