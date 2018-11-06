@@ -1,4 +1,4 @@
-endpoint: https://us1.prisma.sh/abhi-aiyer-ec90c4/core-service/dev
+endpoint: http://localhost:4466/clique-core/dev
 datamodel: datamodel.prisma
 
 generate:
