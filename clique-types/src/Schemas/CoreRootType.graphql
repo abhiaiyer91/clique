@@ -12,4 +12,5 @@ type Mutation {
   updateEventLocation(eventId: ID!, locationId: ID!): Event
   updatePendingParticipants(eventId: ID!, participants: [ID!]!): Event
   updateParticipants(eventId: ID!, participants: [ID!]!): Event
+  acceptInvitation(invitationId: ID!, code: ID!): Event
 }
