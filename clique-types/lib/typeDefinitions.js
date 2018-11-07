@@ -8,7 +8,7 @@
  ******************************************************************************/
 exports.__esModule = true;
 var Address = "\ntype Address {\n  address1: String\n  address2: String\n  address3: String\n  city: String\n  zipcode: String\n  country: String\n  state: String\n}\n";
-var Event = "\ntype Event {\n  id: ID!\n  participants: [User]\n  invitedParticipants: [User]\n  location: Location\n  eventTime: Float\n  type: EventType!\n  status: EventStatus!\n}\n";
+var Event = "\ntype Event {\n  id: ID!\n  cliqId: ID!\n  participants: [User]\n  location: Location\n  eventTime: Float\n  type: EventType!\n  status: EventStatus!\n}\n";
 var EventStatus = "\nenum EventStatus {\n  COMPLETED\n  PLANNED\n  INCOMPLETE\n  CANCELLED\n}\n";
 var EventType = "\nenum EventType {\n  HAPPY_HOUR\n}\n";
 var Invitation = "\ntype Invitation {\n  id: ID!\n  eventId: ID!\n  name: String!\n  email: String!\n}\n";

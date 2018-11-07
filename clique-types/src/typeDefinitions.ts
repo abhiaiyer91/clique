@@ -21,8 +21,8 @@ type Address {
 const Event = `
 type Event {
   id: ID!
+  cliqId: ID!
   participants: [User]
-  invitedParticipants: [User]
   location: Location
   eventTime: Float
   type: EventType!

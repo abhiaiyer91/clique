@@ -38,10 +38,7 @@ const eventFragment = `fragment EventFragment on Event {
     id
     avatar
   }
-  invitedParticipants {
-    id
-    avatar
-  }
+  cliqId
   eventTime
   type
 }`;

@@ -412,15 +412,15 @@
             "deprecationReason": null
           },
           {
-            "name": "participants",
+            "name": "cliqId",
             "description": "",
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               }
             },
@@ -428,7 +428,7 @@
             "deprecationReason": null
           },
           {
-            "name": "invitedParticipants",
+            "name": "participants",
             "description": "",
             "args": [],
             "type": {
