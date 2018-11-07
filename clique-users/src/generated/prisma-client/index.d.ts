@@ -11,6 +11,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  invitation: (where?: InvitationWhereInput) => Promise<boolean>;
   location: (where?: LocationWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -34,6 +35,29 @@ export interface Prisma {
    * Queries
    */
 
+  invitation: (where: InvitationWhereUniqueInput) => Invitation;
+  invitations: (
+    args?: {
+      where?: InvitationWhereInput;
+      orderBy?: InvitationOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<InvitationNode>;
+  invitationsConnection: (
+    args?: {
+      where?: InvitationWhereInput;
+      orderBy?: InvitationOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => InvitationConnection;
   locations: (
     args?: {
       where?: LocationWhereInput;
@@ -85,6 +109,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createInvitation: (data: InvitationCreateInput) => Invitation;
+  updateInvitation: (
+    args: { data: InvitationUpdateInput; where: InvitationWhereUniqueInput }
+  ) => Invitation;
+  updateManyInvitations: (
+    args: { data: InvitationUpdateInput; where?: InvitationWhereInput }
+  ) => BatchPayload;
+  upsertInvitation: (
+    args: {
+      where: InvitationWhereUniqueInput;
+      create: InvitationCreateInput;
+      update: InvitationUpdateInput;
+    }
+  ) => Invitation;
+  deleteInvitation: (where: InvitationWhereUniqueInput) => Invitation;
+  deleteManyInvitations: (where?: InvitationWhereInput) => BatchPayload;
   createLocation: (data: LocationCreateInput) => Location;
   updateManyLocations: (
     args: { data: LocationUpdateInput; where?: LocationWhereInput }
@@ -115,6 +155,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  invitation: (
+    where?: InvitationSubscriptionWhereInput
+  ) => InvitationSubscriptionPayloadSubscription;
   location: (
     where?: LocationSubscriptionWhereInput
   ) => LocationSubscriptionPayloadSubscription;
@@ -130,6 +173,34 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type InvitationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "eventId_ASC"
+  | "eventId_DESC"
+  | "participantId_ASC"
+  | "participantId_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "code_ASC"
+  | "code_DESC"
+  | "sentAt_ASC"
+  | "sentAt_DESC"
+  | "readAt_ASC"
+  | "readAt_DESC"
+  | "acceptedAt_ASC"
+  | "acceptedAt_DESC"
+  | "declinedAt_ASC"
+  | "declinedAt_DESC"
+  | "status_ASC"
+  | "status_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type LocationOrderByInput =
   | "address_ASC"
@@ -149,6 +220,8 @@ export type LocationOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type InviteStatus = "ACCEPTED" | "DECLINED" | "PENDING";
+
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type UserOrderByInput =
@@ -167,12 +240,76 @@ export type UserOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export interface LocationCreateOneInput {
+  create?: LocationCreateInput;
+}
+
+export type InvitationWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface UserCreateInput {
+  name: String;
+  email: String;
+  location?: LocationCreateOneInput;
+  phone?: String;
+  password: String;
+}
+
+export interface InvitationSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: InvitationWhereInput;
+  AND?: InvitationSubscriptionWhereInput[] | InvitationSubscriptionWhereInput;
+  OR?: InvitationSubscriptionWhereInput[] | InvitationSubscriptionWhereInput;
+  NOT?: InvitationSubscriptionWhereInput[] | InvitationSubscriptionWhereInput;
+}
+
+export interface LocationUpdateInput {
+  address?: String;
+  address2?: String;
+  state?: String;
+  zipcode?: String;
+  city?: String;
+}
+
+export interface LocationUpdateDataInput {
+  address?: String;
+  address2?: String;
+  state?: String;
+  zipcode?: String;
+  city?: String;
+}
+
+export interface LocationCreateInput {
+  address?: String;
+  address2?: String;
+  state?: String;
+  zipcode?: String;
+  city?: String;
+}
+
 export interface UserUpdateInput {
   name?: String;
   email?: String;
   location?: LocationUpdateOneInput;
   phone?: String;
   password?: String;
+}
+
+export interface InvitationUpdateInput {
+  eventId?: ID_Input;
+  participantId?: ID_Input;
+  email?: String;
+  name?: String;
+  code?: String;
+  sentAt?: DateTimeInput;
+  readAt?: DateTimeInput;
+  acceptedAt?: DateTimeInput;
+  declinedAt?: DateTimeInput;
+  status?: InviteStatus;
 }
 
 export interface LocationWhereInput {
@@ -251,36 +388,15 @@ export interface LocationWhereInput {
   NOT?: LocationWhereInput[] | LocationWhereInput;
 }
 
-export interface UserCreateInput {
-  name: String;
-  email: String;
-  location?: LocationCreateOneInput;
-  phone?: String;
-  password: String;
-}
-
-export interface LocationUpsertNestedInput {
-  update: LocationUpdateDataInput;
-  create: LocationCreateInput;
-}
-
-export interface LocationCreateInput {
-  address?: String;
-  address2?: String;
-  state?: String;
-  zipcode?: String;
-  city?: String;
-}
-
-export interface UserSubscriptionWhereInput {
+export interface LocationSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  node?: LocationWhereInput;
+  AND?: LocationSubscriptionWhereInput[] | LocationSubscriptionWhereInput;
+  OR?: LocationSubscriptionWhereInput[] | LocationSubscriptionWhereInput;
+  NOT?: LocationSubscriptionWhereInput[] | LocationSubscriptionWhereInput;
 }
 
 export interface UserWhereInput {
@@ -376,24 +492,17 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface LocationUpdateInput {
-  address?: String;
-  address2?: String;
-  state?: String;
-  zipcode?: String;
-  city?: String;
-}
-
-export interface LocationUpdateDataInput {
-  address?: String;
-  address2?: String;
-  state?: String;
-  zipcode?: String;
-  city?: String;
-}
-
-export interface LocationCreateOneInput {
-  create?: LocationCreateInput;
+export interface InvitationCreateInput {
+  eventId: ID_Input;
+  participantId?: ID_Input;
+  email?: String;
+  name?: String;
+  code: String;
+  sentAt: DateTimeInput;
+  readAt?: DateTimeInput;
+  acceptedAt?: DateTimeInput;
+  declinedAt?: DateTimeInput;
+  status?: InviteStatus;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
@@ -401,15 +510,141 @@ export type UserWhereUniqueInput = AtLeastOne<{
   email?: String;
 }>;
 
-export interface LocationSubscriptionWhereInput {
+export interface InvitationWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  eventId?: ID_Input;
+  eventId_not?: ID_Input;
+  eventId_in?: ID_Input[] | ID_Input;
+  eventId_not_in?: ID_Input[] | ID_Input;
+  eventId_lt?: ID_Input;
+  eventId_lte?: ID_Input;
+  eventId_gt?: ID_Input;
+  eventId_gte?: ID_Input;
+  eventId_contains?: ID_Input;
+  eventId_not_contains?: ID_Input;
+  eventId_starts_with?: ID_Input;
+  eventId_not_starts_with?: ID_Input;
+  eventId_ends_with?: ID_Input;
+  eventId_not_ends_with?: ID_Input;
+  participantId?: ID_Input;
+  participantId_not?: ID_Input;
+  participantId_in?: ID_Input[] | ID_Input;
+  participantId_not_in?: ID_Input[] | ID_Input;
+  participantId_lt?: ID_Input;
+  participantId_lte?: ID_Input;
+  participantId_gt?: ID_Input;
+  participantId_gte?: ID_Input;
+  participantId_contains?: ID_Input;
+  participantId_not_contains?: ID_Input;
+  participantId_starts_with?: ID_Input;
+  participantId_not_starts_with?: ID_Input;
+  participantId_ends_with?: ID_Input;
+  participantId_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  code?: String;
+  code_not?: String;
+  code_in?: String[] | String;
+  code_not_in?: String[] | String;
+  code_lt?: String;
+  code_lte?: String;
+  code_gt?: String;
+  code_gte?: String;
+  code_contains?: String;
+  code_not_contains?: String;
+  code_starts_with?: String;
+  code_not_starts_with?: String;
+  code_ends_with?: String;
+  code_not_ends_with?: String;
+  sentAt?: DateTimeInput;
+  sentAt_not?: DateTimeInput;
+  sentAt_in?: DateTimeInput[] | DateTimeInput;
+  sentAt_not_in?: DateTimeInput[] | DateTimeInput;
+  sentAt_lt?: DateTimeInput;
+  sentAt_lte?: DateTimeInput;
+  sentAt_gt?: DateTimeInput;
+  sentAt_gte?: DateTimeInput;
+  readAt?: DateTimeInput;
+  readAt_not?: DateTimeInput;
+  readAt_in?: DateTimeInput[] | DateTimeInput;
+  readAt_not_in?: DateTimeInput[] | DateTimeInput;
+  readAt_lt?: DateTimeInput;
+  readAt_lte?: DateTimeInput;
+  readAt_gt?: DateTimeInput;
+  readAt_gte?: DateTimeInput;
+  acceptedAt?: DateTimeInput;
+  acceptedAt_not?: DateTimeInput;
+  acceptedAt_in?: DateTimeInput[] | DateTimeInput;
+  acceptedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  acceptedAt_lt?: DateTimeInput;
+  acceptedAt_lte?: DateTimeInput;
+  acceptedAt_gt?: DateTimeInput;
+  acceptedAt_gte?: DateTimeInput;
+  declinedAt?: DateTimeInput;
+  declinedAt_not?: DateTimeInput;
+  declinedAt_in?: DateTimeInput[] | DateTimeInput;
+  declinedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  declinedAt_lt?: DateTimeInput;
+  declinedAt_lte?: DateTimeInput;
+  declinedAt_gt?: DateTimeInput;
+  declinedAt_gte?: DateTimeInput;
+  status?: InviteStatus;
+  status_not?: InviteStatus;
+  status_in?: InviteStatus[] | InviteStatus;
+  status_not_in?: InviteStatus[] | InviteStatus;
+  AND?: InvitationWhereInput[] | InvitationWhereInput;
+  OR?: InvitationWhereInput[] | InvitationWhereInput;
+  NOT?: InvitationWhereInput[] | InvitationWhereInput;
+}
+
+export interface UserSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: LocationWhereInput;
-  AND?: LocationSubscriptionWhereInput[] | LocationSubscriptionWhereInput;
-  OR?: LocationSubscriptionWhereInput[] | LocationSubscriptionWhereInput;
-  NOT?: LocationSubscriptionWhereInput[] | LocationSubscriptionWhereInput;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
 export interface LocationUpdateOneInput {
@@ -420,39 +655,85 @@ export interface LocationUpdateOneInput {
   disconnect?: Boolean;
 }
 
+export interface LocationUpsertNestedInput {
+  update: LocationUpdateDataInput;
+  create: LocationCreateInput;
+}
+
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface AggregateUserNode {
+export interface UserEdgeNode {
+  cursor: String;
+}
+
+export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
+  node: <T = User>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdgeNode>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateInvitationNode {
   count: Int;
 }
 
-export interface AggregateUser
-  extends Promise<AggregateUserNode>,
+export interface AggregateInvitation
+  extends Promise<AggregateInvitationNode>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUserNode>>,
+export interface AggregateInvitationSubscription
+  extends Promise<AsyncIterator<AggregateInvitationNode>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface LocationEdgeNode {
+export interface LocationSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface LocationSubscriptionPayload
+  extends Promise<LocationSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Location>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LocationPreviousValues>() => T;
+}
+
+export interface LocationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LocationSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LocationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LocationPreviousValuesSubscription>() => T;
+}
+
+export interface InvitationEdgeNode {
   cursor: String;
 }
 
-export interface LocationEdge extends Promise<LocationEdgeNode>, Fragmentable {
-  node: <T = Location>() => T;
+export interface InvitationEdge
+  extends Promise<InvitationEdgeNode>,
+    Fragmentable {
+  node: <T = Invitation>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface LocationEdgeSubscription
-  extends Promise<AsyncIterator<LocationEdgeNode>>,
+export interface InvitationEdgeSubscription
+  extends Promise<AsyncIterator<InvitationEdgeNode>>,
     Fragmentable {
-  node: <T = LocationSubscription>() => T;
+  node: <T = InvitationSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -490,20 +771,125 @@ export interface UserPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface AggregateLocationNode {
+export interface AggregateUserNode {
   count: Int;
 }
 
-export interface AggregateLocation
-  extends Promise<AggregateLocationNode>,
+export interface AggregateUser
+  extends Promise<AggregateUserNode>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateLocationSubscription
-  extends Promise<AsyncIterator<AggregateLocationNode>>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUserNode>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserNode {
+  id: ID_Output;
+  name: String;
+  email: String;
+  phone?: String;
+  password: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface User extends Promise<UserNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  location: <T = Location>() => T;
+  phone: () => Promise<String>;
+  password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<UserNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  location: <T = LocationSubscription>() => T;
+  phone: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PageInfoNode {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfo extends Promise<PageInfoNode>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfoNode>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BatchPayloadNode {
+  count: Long;
+}
+
+export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayloadNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface InvitationConnectionNode {}
+
+export interface InvitationConnection
+  extends Promise<InvitationConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<InvitationEdgeNode>>() => T;
+  aggregate: <T = AggregateInvitation>() => T;
+}
+
+export interface InvitationConnectionSubscription
+  extends Promise<AsyncIterator<InvitationConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<InvitationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateInvitationSubscription>() => T;
+}
+
+export interface LocationEdgeNode {
+  cursor: String;
+}
+
+export interface LocationEdge extends Promise<LocationEdgeNode>, Fragmentable {
+  node: <T = Location>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LocationEdgeSubscription
+  extends Promise<AsyncIterator<LocationEdgeNode>>,
+    Fragmentable {
+  node: <T = LocationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface LocationNode {
@@ -530,6 +916,147 @@ export interface LocationSubscription
   state: () => Promise<AsyncIterator<String>>;
   zipcode: () => Promise<AsyncIterator<String>>;
   city: () => Promise<AsyncIterator<String>>;
+}
+
+export interface InvitationPreviousValuesNode {
+  id: ID_Output;
+  eventId: ID_Output;
+  participantId?: ID_Output;
+  email?: String;
+  name?: String;
+  code: String;
+  sentAt: DateTimeOutput;
+  readAt?: DateTimeOutput;
+  acceptedAt?: DateTimeOutput;
+  declinedAt?: DateTimeOutput;
+  status?: InviteStatus;
+}
+
+export interface InvitationPreviousValues
+  extends Promise<InvitationPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  eventId: () => Promise<ID_Output>;
+  participantId: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  name: () => Promise<String>;
+  code: () => Promise<String>;
+  sentAt: () => Promise<DateTimeOutput>;
+  readAt: () => Promise<DateTimeOutput>;
+  acceptedAt: () => Promise<DateTimeOutput>;
+  declinedAt: () => Promise<DateTimeOutput>;
+  status: () => Promise<InviteStatus>;
+}
+
+export interface InvitationPreviousValuesSubscription
+  extends Promise<AsyncIterator<InvitationPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  eventId: () => Promise<AsyncIterator<ID_Output>>;
+  participantId: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<String>>;
+  sentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  readAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  acceptedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  declinedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  status: () => Promise<AsyncIterator<InviteStatus>>;
+}
+
+export interface InvitationSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface InvitationSubscriptionPayload
+  extends Promise<InvitationSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Invitation>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = InvitationPreviousValues>() => T;
+}
+
+export interface InvitationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<InvitationSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = InvitationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = InvitationPreviousValuesSubscription>() => T;
+}
+
+export interface LocationPreviousValuesNode {
+  address?: String;
+  address2?: String;
+  state?: String;
+  zipcode?: String;
+  city?: String;
+}
+
+export interface LocationPreviousValues
+  extends Promise<LocationPreviousValuesNode>,
+    Fragmentable {
+  address: () => Promise<String>;
+  address2: () => Promise<String>;
+  state: () => Promise<String>;
+  zipcode: () => Promise<String>;
+  city: () => Promise<String>;
+}
+
+export interface LocationPreviousValuesSubscription
+  extends Promise<AsyncIterator<LocationPreviousValuesNode>>,
+    Fragmentable {
+  address: () => Promise<AsyncIterator<String>>;
+  address2: () => Promise<AsyncIterator<String>>;
+  state: () => Promise<AsyncIterator<String>>;
+  zipcode: () => Promise<AsyncIterator<String>>;
+  city: () => Promise<AsyncIterator<String>>;
+}
+
+export interface InvitationNode {
+  id: ID_Output;
+  eventId: ID_Output;
+  participantId?: ID_Output;
+  email?: String;
+  name?: String;
+  code: String;
+  sentAt: DateTimeOutput;
+  readAt?: DateTimeOutput;
+  acceptedAt?: DateTimeOutput;
+  declinedAt?: DateTimeOutput;
+  status?: InviteStatus;
+}
+
+export interface Invitation extends Promise<InvitationNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  eventId: () => Promise<ID_Output>;
+  participantId: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  name: () => Promise<String>;
+  code: () => Promise<String>;
+  sentAt: () => Promise<DateTimeOutput>;
+  readAt: () => Promise<DateTimeOutput>;
+  acceptedAt: () => Promise<DateTimeOutput>;
+  declinedAt: () => Promise<DateTimeOutput>;
+  status: () => Promise<InviteStatus>;
+}
+
+export interface InvitationSubscription
+  extends Promise<AsyncIterator<InvitationNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  eventId: () => Promise<AsyncIterator<ID_Output>>;
+  participantId: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<String>>;
+  sentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  readAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  acceptedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  declinedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  status: () => Promise<AsyncIterator<InviteStatus>>;
 }
 
 export interface UserConnectionNode {}
@@ -568,144 +1095,6 @@ export interface LocationConnectionSubscription
   aggregate: <T = AggregateLocationSubscription>() => T;
 }
 
-export interface PageInfoNode {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfo extends Promise<PageInfoNode>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfoNode>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface LocationSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface LocationSubscriptionPayload
-  extends Promise<LocationSubscriptionPayloadNode>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = Location>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = LocationPreviousValues>() => T;
-}
-
-export interface LocationSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LocationSubscriptionPayloadNode>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LocationSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LocationPreviousValuesSubscription>() => T;
-}
-
-export interface UserEdgeNode {
-  cursor: String;
-}
-
-export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
-  node: <T = User>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdgeNode>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BatchPayloadNode {
-  count: Long;
-}
-
-export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayloadNode>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface LocationPreviousValuesNode {
-  address?: String;
-  address2?: String;
-  state?: String;
-  zipcode?: String;
-  city?: String;
-}
-
-export interface LocationPreviousValues
-  extends Promise<LocationPreviousValuesNode>,
-    Fragmentable {
-  address: () => Promise<String>;
-  address2: () => Promise<String>;
-  state: () => Promise<String>;
-  zipcode: () => Promise<String>;
-  city: () => Promise<String>;
-}
-
-export interface LocationPreviousValuesSubscription
-  extends Promise<AsyncIterator<LocationPreviousValuesNode>>,
-    Fragmentable {
-  address: () => Promise<AsyncIterator<String>>;
-  address2: () => Promise<AsyncIterator<String>>;
-  state: () => Promise<AsyncIterator<String>>;
-  zipcode: () => Promise<AsyncIterator<String>>;
-  city: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserNode {
-  id: ID_Output;
-  name: String;
-  email: String;
-  phone?: String;
-  password: String;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-}
-
-export interface User extends Promise<UserNode>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
-  location: <T = Location>() => T;
-  phone: () => Promise<String>;
-  password: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<UserNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  location: <T = LocationSubscription>() => T;
-  phone: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
 export interface UserSubscriptionPayloadNode {
   mutation: MutationType;
   updatedFields?: String[];
@@ -729,15 +1118,32 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
+export interface AggregateLocationNode {
+  count: Int;
+}
+
+export interface AggregateLocation
+  extends Promise<AggregateLocationNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLocationSubscription
+  extends Promise<AsyncIterator<AggregateLocationNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 /*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
-export type String = string;
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 export type Long = string;
 
@@ -745,12 +1151,6 @@ export type Long = string;
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -761,6 +1161,11 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
 
 /**
  * Type Defs

@@ -7,9 +7,6 @@ export default {
     },
     locations: async (parent, { searchText }) => {
       return await search({ text: searchText });
-    },
-    invitationsForEvent: async (parent, { eventId }, { db }) => {
-      return db.invitations({ where: { eventId } });
     }
   },
   Event: {
@@ -26,6 +23,16 @@ export default {
     }
   },
   Mutation: {
+    updatePartcipants: (parent, { cliqId, participants }, { db }) => {
+      return db.updateCliq({
+        where: {
+          id: cliqId
+        },
+        data: {
+          participants
+        }
+      });
+    },
     updateEventLocation: (parent, { eventId, locationId }, { db }) => {
       return db.updateEvent({
         where: {

@@ -50,16 +50,31 @@ export default {
       userId = get(user, "id");
     }
 
-    const event = db.event({ id: eventId });
+    const event = await coreServiceClient.query.eventById(
+      { id: eventId },
+      `
+      {
+        cliq {
+          id
+          participants
+        }
+      }
+    `
+    );
+
     const { cliq } = event;
 
     // add user to participants, remove from pending participants
-    const { participants, pendingParticipants } = cliq;
-    await db.updateCliq({
-      ...cliq,
-      participants: concat(participants, userId),
-      pendingParticipants: without(pendingParticipants, userId)
+    const { participants } = cliq;
+
+    await coreServiceClient.mutation.updatePartcipants({
+      cliqId: cliq.id,
+      participants: concat(participants, userId)
     });
+
+    return {
+      token: sign({ userId: userId }, APP_SECRET)
+    };
   },
   // updatePendingParticipants: async (
   //   parent,

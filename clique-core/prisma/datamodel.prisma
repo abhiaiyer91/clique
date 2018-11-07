@@ -12,7 +12,6 @@ enum EventStatus {
 type Cliq {
   id: ID! @unique
   participants: [ID!]
-  pendingParticipants: [ID!]
 }
 
 type Event {

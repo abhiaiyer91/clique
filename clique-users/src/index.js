@@ -1,5 +1,6 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import { instrumentResolvers } from "@workpop/graphql-metrics";
+import CoreBinding from "@cliquelabs/types/lib/ServiceBindings/CoreBinding";
 import express from "express";
 import fs from "fs";
 import { prisma } from "./generated/prisma-client";
@@ -24,7 +25,11 @@ const apolloServer = new ApolloServer({
   context: ({ req }) => {
     return {
       db: prisma,
-      userId: req.headers['x-userid'],
+      userId: req.headers["x-userid"],
+      coreServiceClient: CoreBinding({
+        uri: "http://localhost:1338/graphql",
+        headersToForward: []
+      })
     };
   }
 });
