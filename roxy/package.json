@@ -6,7 +6,7 @@
   "author": "Abhi Aiyer",
   "license": "MIT",
   "dependencies": {
-    "@cliquelabs/types": "^0.0.10",
+    "@cliquelabs/types": "^0.0.16",
     "@workpop/graphql-metrics": "^0.4.0",
     "apollo-server-express": "^2.1.0",
     "babel-runtime": "^6.26.0",

@@ -16,3 +16,23 @@ type User {
   createdAt: DateTime!
   updatedAt: DateTime!
 }
+
+type Invitation {
+  id: ID! @unique
+  eventId: ID!
+  participantId: ID # if the user has not accepted an invite, then this will be undefined
+  email: String
+  name: String
+  code: String!
+  sentAt: DateTime!
+  readAt: DateTime
+  acceptedAt: DateTime
+  declinedAt: DateTime
+  status: InviteStatus
+}
+
+enum InviteStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
+}

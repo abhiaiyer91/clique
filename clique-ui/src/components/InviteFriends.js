@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
-import { graphql, compose } from "react-apollo";
+import React from "react";
+import { graphql } from "react-apollo";
 import { css } from "emotion";
 import { Formik } from "formik";
 import gql from "graphql-tag";
 import queries from "@cliquelabs/types/lib/queries";
 import * as Yup from "yup";
+import { usePanel } from "../core/Panel";
 import Button from "../core/Button";
 import Divider from "../core/Divider";
 import InputWithLabel from "../core/InputWithLabel";
 
-function InviteForm() {
+const { inviteUserToEvent } = queries;
+
+let InviteForm = function InviteForm({ eventId, inviteFriend }) {
+  const { closePanel } = usePanel();
   let initialValues = {};
 
   const validationSchema = Yup.object().shape({
@@ -23,7 +27,17 @@ function InviteForm() {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {}}
+      onSubmit={(values, { setSubmitting }) => {
+        return inviteFriend({
+          variables: {
+            eventId,
+            ...values
+          }
+        }).then(() => {
+          setSubmitting(false);
+          closePanel();
+        });
+      }}
     >
       {({
         values,
@@ -35,8 +49,6 @@ function InviteForm() {
         isSubmitting
         /* and other goodies */
       }) => {
-        let submitlabel;
-
         return (
           <form onSubmit={handleSubmit}>
             <InputWithLabel
@@ -78,15 +90,19 @@ function InviteForm() {
       }}
     </Formik>
   );
-}
+};
 
-export default function InviteFriendsPanel() {
+InviteForm = graphql(gql(inviteUserToEvent), {
+  name: "inviteFriend"
+})(InviteForm);
+
+export default function InviteFriendsPanel({ eventId }) {
   return (
     <section className={css({ maxWidth: 480, margin: "0 auto" })}>
       <h2 className={css({ margin: "16px 0" })}>Invite a friend</h2>
       <Divider type="thin" />
 
-      <InviteForm />
+      <InviteForm eventId={eventId} />
     </section>
   );
 }

@@ -14,6 +14,7 @@ import { Flex, FlexItem } from "../../core/Flex";
 import LocationDisplay from "../../components/LocationDisplay";
 import LocationCard from "../../components/LocationEventCard";
 import Friends from "../../components/Friends";
+import InvitationsList from "../../components/InvitationsList";
 import Crew from "../../icons/Hangout";
 
 const { eventById, eventFragment } = queries;
@@ -66,7 +67,7 @@ function App({ event, loading }) {
       <Flex>
         <FlexItem>
           <div className={css({ marginBottom: 32 })}>
-            <LoctionSection location={event.location} />
+            <LoctionSection location={event && event.location} />
           </div>
           <SubHeader>Invite friends</SubHeader>
           <Card>
@@ -104,6 +105,12 @@ function App({ event, loading }) {
               </div>
             </CardBody>
           </Card>
+          {event &&
+            event.id && (
+              <section className={css({ marginTop: 24 })}>
+                <InvitationsList eventId={event && event.id} />
+              </section>
+            )}
         </FlexItem>
       </Flex>
     </div>

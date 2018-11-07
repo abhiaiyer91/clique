@@ -37,7 +37,7 @@ export default function ListItem({
           backgroundColor: "white",
           borderBottom: isLast ? "none" : "1px solid rgba(42, 51, 83, 0.12)",
           ":hover": {
-            backgroundColor: noHover ? 'white': "#dfe4e7"
+            backgroundColor: noHover ? "white" : "#dfe4e7"
           },
           ...border
         })}
@@ -49,18 +49,35 @@ export default function ListItem({
               width: 48,
               display: "flex",
               borderRadius: 4,
-              overflow: "hidden"
+              overflow: "hidden",
+              textAlign: "center",
+              background: "linear-gradient(to bottom, #7bc6cc, #be93c5)"
             })}
           >
-            <img
-              alt="user profile"
-              className={css({
-                maxWidth: "100%",
-                height: "auto",
-                borderRadius: 4
-              })}
-              src={avatar}
-            />
+            {avatar ? (
+              <img
+                alt="user profile"
+                className={css({
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: 4
+                })}
+                src={avatar}
+              />
+            ) : (
+              <p
+                className={css({
+                  alignSelf: "center",
+                  color: "white",
+                  fontSize: 24,
+                  flex: "1 0 0px",
+                  fontWeight: 700,
+                  margin: 0
+                })}
+              >
+                {title && title[0]}
+              </p>
+            )}
           </div>
         </FlexAuto>
         <FlexItem align="center">

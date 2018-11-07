@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { css } from "emotion";
-import { graphql } from "react-apollo";
+import withRouter from "react-router-dom/withRouter";
+import { graphql, compose } from "react-apollo";
 import queries from "@cliquelabs/types/lib/queries";
 import gql from "graphql-tag";
 import { usePanel } from "../core/Panel";
@@ -15,7 +16,7 @@ import InviteFriends from "./InviteFriends";
 
 const { friends } = queries;
 
-function FriendsZeroState() {
+function FriendsZeroState({ eventId }) {
   const { showPanel } = usePanel();
   return (
     <CardBody>
@@ -44,7 +45,8 @@ function FriendsZeroState() {
           <Button
             onClick={() => {
               return showPanel({
-                Component: InviteFriends
+                Component: InviteFriends,
+                props: { eventId }
               });
             }}
             className={css({ width: "100%" })}
@@ -57,7 +59,8 @@ function FriendsZeroState() {
   );
 }
 
-function Friends({ friendsList = [], loading }) {
+function Friends({ friendsList = [], match, loading }) {
+  const eventId = match && match.params.id;
   if (loading) {
     return (
       <div className={css({ padding: 16 })}>
@@ -68,7 +71,7 @@ function Friends({ friendsList = [], loading }) {
   return (
     <Fragment>
       {friendsList.length === 0 ? (
-        <FriendsZeroState />
+        <FriendsZeroState eventId={eventId} />
       ) : (
         <div
           className={css({
@@ -97,12 +100,15 @@ function Friends({ friendsList = [], loading }) {
   );
 }
 
-export default graphql(gql(friends), {
-  props: ({ data, ...rest }) => {
-    return {
-      friendsList: data.friends || [],
-      loading: data.loading,
-      ...rest
-    };
-  }
-})(Friends);
+export default compose(
+  withRouter,
+  graphql(gql(friends), {
+    props: ({ data, ...rest }) => {
+      return {
+        friendsList: data.friends || [],
+        loading: data.loading,
+        ...rest
+      };
+    }
+  })
+)(Friends);
