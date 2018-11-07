@@ -13,6 +13,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export interface Exists {
   cliq: (where?: CliqWhereInput) => Promise<boolean>;
   event: (where?: EventWhereInput) => Promise<boolean>;
+  invitation: (where?: InvitationWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -80,6 +81,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => EventConnection;
+  invitation: (where: InvitationWhereUniqueInput) => Invitation;
+  invitations: (
+    args?: {
+      where?: InvitationWhereInput;
+      orderBy?: InvitationOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<InvitationNode>;
+  invitationsConnection: (
+    args?: {
+      where?: InvitationWhereInput;
+      orderBy?: InvitationOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => InvitationConnection;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -118,6 +142,22 @@ export interface Prisma {
   ) => Event;
   deleteEvent: (where: EventWhereUniqueInput) => Event;
   deleteManyEvents: (where?: EventWhereInput) => BatchPayload;
+  createInvitation: (data: InvitationCreateInput) => Invitation;
+  updateInvitation: (
+    args: { data: InvitationUpdateInput; where: InvitationWhereUniqueInput }
+  ) => Invitation;
+  updateManyInvitations: (
+    args: { data: InvitationUpdateInput; where?: InvitationWhereInput }
+  ) => BatchPayload;
+  upsertInvitation: (
+    args: {
+      where: InvitationWhereUniqueInput;
+      create: InvitationCreateInput;
+      update: InvitationUpdateInput;
+    }
+  ) => Invitation;
+  deleteInvitation: (where: InvitationWhereUniqueInput) => Invitation;
+  deleteManyInvitations: (where?: InvitationWhereInput) => BatchPayload;
 
   /**
    * Subscriptions
@@ -133,6 +173,9 @@ export interface Subscription {
   event: (
     where?: EventSubscriptionWhereInput
   ) => EventSubscriptionPayloadSubscription;
+  invitation: (
+    where?: InvitationSubscriptionWhereInput
+  ) => InvitationSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -144,18 +187,6 @@ export interface ClientConstructor<T> {
  */
 
 export type EventType = "HAPPY_HOUR";
-
-export type EventStatus = "COMPLETED" | "PLANNED" | "INCOMPLETE" | "CANCELLED";
-
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
-export type CliqOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
 
 export type EventOrderByInput =
   | "id_ASC"
@@ -173,29 +204,235 @@ export type EventOrderByInput =
   | "status_ASC"
   | "status_DESC";
 
-export type EventWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type InviteStatus = "ACCEPTED" | "DECLINED" | "PENDING";
+
+export type CliqOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type InvitationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "eventId_ASC"
+  | "eventId_DESC"
+  | "participantId_ASC"
+  | "participantId_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "code_ASC"
+  | "code_DESC"
+  | "sentAt_ASC"
+  | "sentAt_DESC"
+  | "readAt_ASC"
+  | "readAt_DESC"
+  | "acceptedAt_ASC"
+  | "acceptedAt_DESC"
+  | "declinedAt_ASC"
+  | "declinedAt_DESC"
+  | "status_ASC"
+  | "status_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type EventStatus = "COMPLETED" | "PLANNED" | "INCOMPLETE" | "CANCELLED";
 
 export interface CliqCreateInput {
   participants?: CliqCreateparticipantsInput;
   pendingParticipants?: CliqCreatependingParticipantsInput;
 }
 
-export interface CliqSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CliqWhereInput;
-  AND?: CliqSubscriptionWhereInput[] | CliqSubscriptionWhereInput;
-  OR?: CliqSubscriptionWhereInput[] | CliqSubscriptionWhereInput;
-  NOT?: CliqSubscriptionWhereInput[] | CliqSubscriptionWhereInput;
+export interface EventCreateInput {
+  locationId?: ID_Input;
+  cliq?: CliqCreateOneInput;
+  eventTime?: DateTimeInput;
+  type: EventType;
+  status: EventStatus;
 }
 
 export type CliqWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
+
+export interface CliqUpdatependingParticipantsInput {
+  set?: ID_Input[] | ID_Input;
+}
+
+export interface InvitationCreateInput {
+  eventId: ID_Input;
+  participantId?: ID_Input;
+  email?: String;
+  code: ID_Input;
+  sentAt: DateTimeInput;
+  readAt: DateTimeInput;
+  acceptedAt: DateTimeInput;
+  declinedAt: DateTimeInput;
+  status?: InviteStatus;
+}
+
+export type InvitationWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface CliqUpdateDataInput {
+  participants?: CliqUpdateparticipantsInput;
+  pendingParticipants?: CliqUpdatependingParticipantsInput;
+}
+
+export interface CliqUpdateparticipantsInput {
+  set?: ID_Input[] | ID_Input;
+}
+
+export interface CliqUpdateOneInput {
+  create?: CliqCreateInput;
+  update?: CliqUpdateDataInput;
+  upsert?: CliqUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: CliqWhereUniqueInput;
+}
+
+export interface EventSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: EventWhereInput;
+  AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+}
+
+export interface InvitationUpdateInput {
+  eventId?: ID_Input;
+  participantId?: ID_Input;
+  email?: String;
+  code?: ID_Input;
+  sentAt?: DateTimeInput;
+  readAt?: DateTimeInput;
+  acceptedAt?: DateTimeInput;
+  declinedAt?: DateTimeInput;
+  status?: InviteStatus;
+}
+
+export interface InvitationWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  eventId?: ID_Input;
+  eventId_not?: ID_Input;
+  eventId_in?: ID_Input[] | ID_Input;
+  eventId_not_in?: ID_Input[] | ID_Input;
+  eventId_lt?: ID_Input;
+  eventId_lte?: ID_Input;
+  eventId_gt?: ID_Input;
+  eventId_gte?: ID_Input;
+  eventId_contains?: ID_Input;
+  eventId_not_contains?: ID_Input;
+  eventId_starts_with?: ID_Input;
+  eventId_not_starts_with?: ID_Input;
+  eventId_ends_with?: ID_Input;
+  eventId_not_ends_with?: ID_Input;
+  participantId?: ID_Input;
+  participantId_not?: ID_Input;
+  participantId_in?: ID_Input[] | ID_Input;
+  participantId_not_in?: ID_Input[] | ID_Input;
+  participantId_lt?: ID_Input;
+  participantId_lte?: ID_Input;
+  participantId_gt?: ID_Input;
+  participantId_gte?: ID_Input;
+  participantId_contains?: ID_Input;
+  participantId_not_contains?: ID_Input;
+  participantId_starts_with?: ID_Input;
+  participantId_not_starts_with?: ID_Input;
+  participantId_ends_with?: ID_Input;
+  participantId_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  code?: ID_Input;
+  code_not?: ID_Input;
+  code_in?: ID_Input[] | ID_Input;
+  code_not_in?: ID_Input[] | ID_Input;
+  code_lt?: ID_Input;
+  code_lte?: ID_Input;
+  code_gt?: ID_Input;
+  code_gte?: ID_Input;
+  code_contains?: ID_Input;
+  code_not_contains?: ID_Input;
+  code_starts_with?: ID_Input;
+  code_not_starts_with?: ID_Input;
+  code_ends_with?: ID_Input;
+  code_not_ends_with?: ID_Input;
+  sentAt?: DateTimeInput;
+  sentAt_not?: DateTimeInput;
+  sentAt_in?: DateTimeInput[] | DateTimeInput;
+  sentAt_not_in?: DateTimeInput[] | DateTimeInput;
+  sentAt_lt?: DateTimeInput;
+  sentAt_lte?: DateTimeInput;
+  sentAt_gt?: DateTimeInput;
+  sentAt_gte?: DateTimeInput;
+  readAt?: DateTimeInput;
+  readAt_not?: DateTimeInput;
+  readAt_in?: DateTimeInput[] | DateTimeInput;
+  readAt_not_in?: DateTimeInput[] | DateTimeInput;
+  readAt_lt?: DateTimeInput;
+  readAt_lte?: DateTimeInput;
+  readAt_gt?: DateTimeInput;
+  readAt_gte?: DateTimeInput;
+  acceptedAt?: DateTimeInput;
+  acceptedAt_not?: DateTimeInput;
+  acceptedAt_in?: DateTimeInput[] | DateTimeInput;
+  acceptedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  acceptedAt_lt?: DateTimeInput;
+  acceptedAt_lte?: DateTimeInput;
+  acceptedAt_gt?: DateTimeInput;
+  acceptedAt_gte?: DateTimeInput;
+  declinedAt?: DateTimeInput;
+  declinedAt_not?: DateTimeInput;
+  declinedAt_in?: DateTimeInput[] | DateTimeInput;
+  declinedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  declinedAt_lt?: DateTimeInput;
+  declinedAt_lte?: DateTimeInput;
+  declinedAt_gt?: DateTimeInput;
+  declinedAt_gte?: DateTimeInput;
+  status?: InviteStatus;
+  status_not?: InviteStatus;
+  status_in?: InviteStatus[] | InviteStatus;
+  status_not_in?: InviteStatus[] | InviteStatus;
+  AND?: InvitationWhereInput[] | InvitationWhereInput;
+  OR?: InvitationWhereInput[] | InvitationWhereInput;
+  NOT?: InvitationWhereInput[] | InvitationWhereInput;
+}
 
 export interface EventWhereInput {
   id?: ID_Input;
@@ -264,11 +501,6 @@ export interface EventWhereInput {
   NOT?: EventWhereInput[] | EventWhereInput;
 }
 
-export interface CliqUpdateDataInput {
-  participants?: CliqUpdateparticipantsInput;
-  pendingParticipants?: CliqUpdatependingParticipantsInput;
-}
-
 export interface CliqWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
@@ -289,24 +521,14 @@ export interface CliqWhereInput {
   NOT?: CliqWhereInput[] | CliqWhereInput;
 }
 
-export interface EventUpdateInput {
-  locationId?: ID_Input;
-  cliq?: CliqUpdateOneInput;
-  eventTime?: DateTimeInput;
-  type?: EventType;
-  status?: EventStatus;
+export interface CliqCreateOneInput {
+  create?: CliqCreateInput;
+  connect?: CliqWhereUniqueInput;
 }
 
-export interface EventSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: EventWhereInput;
-  AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
-  OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
-  NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
-}
+export type EventWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface CliqCreateparticipantsInput {
   set?: ID_Input[] | ID_Input;
@@ -321,30 +543,12 @@ export interface CliqUpdateInput {
   pendingParticipants?: CliqUpdatependingParticipantsInput;
 }
 
-export interface CliqUpdateparticipantsInput {
-  set?: ID_Input[] | ID_Input;
-}
-
-export interface EventCreateInput {
+export interface EventUpdateInput {
   locationId?: ID_Input;
-  cliq?: CliqCreateOneInput;
+  cliq?: CliqUpdateOneInput;
   eventTime?: DateTimeInput;
-  type: EventType;
-  status: EventStatus;
-}
-
-export interface CliqCreateOneInput {
-  create?: CliqCreateInput;
-  connect?: CliqWhereUniqueInput;
-}
-
-export interface CliqUpdateOneInput {
-  create?: CliqCreateInput;
-  update?: CliqUpdateDataInput;
-  upsert?: CliqUpsertNestedInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: CliqWhereUniqueInput;
+  type?: EventType;
+  status?: EventStatus;
 }
 
 export interface CliqUpsertNestedInput {
@@ -352,51 +556,48 @@ export interface CliqUpsertNestedInput {
   create: CliqCreateInput;
 }
 
-export interface CliqUpdatependingParticipantsInput {
-  set?: ID_Input[] | ID_Input;
+export interface CliqSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CliqWhereInput;
+  AND?: CliqSubscriptionWhereInput[] | CliqSubscriptionWhereInput;
+  OR?: CliqSubscriptionWhereInput[] | CliqSubscriptionWhereInput;
+  NOT?: CliqSubscriptionWhereInput[] | CliqSubscriptionWhereInput;
+}
+
+export interface InvitationSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: InvitationWhereInput;
+  AND?: InvitationSubscriptionWhereInput[] | InvitationSubscriptionWhereInput;
+  OR?: InvitationSubscriptionWhereInput[] | InvitationSubscriptionWhereInput;
+  NOT?: InvitationSubscriptionWhereInput[] | InvitationSubscriptionWhereInput;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface AggregateCliqNode {
-  count: Int;
+export interface InvitationEdgeNode {
+  cursor: String;
 }
 
-export interface AggregateCliq
-  extends Promise<AggregateCliqNode>,
+export interface InvitationEdge
+  extends Promise<InvitationEdgeNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  node: <T = Invitation>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface AggregateCliqSubscription
-  extends Promise<AsyncIterator<AggregateCliqNode>>,
+export interface InvitationEdgeSubscription
+  extends Promise<AsyncIterator<InvitationEdgeNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CliqSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface CliqSubscriptionPayload
-  extends Promise<CliqSubscriptionPayloadNode>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = Cliq>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CliqPreviousValues>() => T;
-}
-
-export interface CliqSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CliqSubscriptionPayloadNode>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CliqSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CliqPreviousValuesSubscription>() => T;
+  node: <T = InvitationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CliqEdgeNode {
@@ -415,96 +616,81 @@ export interface CliqEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface EventPreviousValuesNode {
+export interface InvitationPreviousValuesNode {
   id: ID_Output;
-  locationId?: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  eventTime?: DateTimeOutput;
-  type: EventType;
-  status: EventStatus;
+  eventId: ID_Output;
+  participantId?: ID_Output;
+  email?: String;
+  code: ID_Output;
+  sentAt: DateTimeOutput;
+  readAt: DateTimeOutput;
+  acceptedAt: DateTimeOutput;
+  declinedAt: DateTimeOutput;
+  status?: InviteStatus;
 }
 
-export interface EventPreviousValues
-  extends Promise<EventPreviousValuesNode>,
+export interface InvitationPreviousValues
+  extends Promise<InvitationPreviousValuesNode>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  locationId: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  eventTime: () => Promise<DateTimeOutput>;
-  type: () => Promise<EventType>;
-  status: () => Promise<EventStatus>;
+  eventId: () => Promise<ID_Output>;
+  participantId: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  code: () => Promise<ID_Output>;
+  sentAt: () => Promise<DateTimeOutput>;
+  readAt: () => Promise<DateTimeOutput>;
+  acceptedAt: () => Promise<DateTimeOutput>;
+  declinedAt: () => Promise<DateTimeOutput>;
+  status: () => Promise<InviteStatus>;
 }
 
-export interface EventPreviousValuesSubscription
-  extends Promise<AsyncIterator<EventPreviousValuesNode>>,
+export interface InvitationPreviousValuesSubscription
+  extends Promise<AsyncIterator<InvitationPreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  locationId: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  eventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  type: () => Promise<AsyncIterator<EventType>>;
-  status: () => Promise<AsyncIterator<EventStatus>>;
+  eventId: () => Promise<AsyncIterator<ID_Output>>;
+  participantId: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<ID_Output>>;
+  sentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  readAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  acceptedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  declinedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  status: () => Promise<AsyncIterator<InviteStatus>>;
 }
 
-export interface EventConnectionNode {}
+export interface AggregateInvitationNode {
+  count: Int;
+}
 
-export interface EventConnection
-  extends Promise<EventConnectionNode>,
+export interface AggregateInvitation
+  extends Promise<AggregateInvitationNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateInvitationSubscription
+  extends Promise<AsyncIterator<AggregateInvitationNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface InvitationConnectionNode {}
+
+export interface InvitationConnection
+  extends Promise<InvitationConnectionNode>,
     Fragmentable {
   pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<EventEdgeNode>>() => T;
-  aggregate: <T = AggregateEvent>() => T;
+  edges: <T = FragmentableArray<InvitationEdgeNode>>() => T;
+  aggregate: <T = AggregateInvitation>() => T;
 }
 
-export interface EventConnectionSubscription
-  extends Promise<AsyncIterator<EventConnectionNode>>,
+export interface InvitationConnectionSubscription
+  extends Promise<AsyncIterator<InvitationConnectionNode>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateEventSubscription>() => T;
-}
-
-export interface CliqPreviousValuesNode {
-  id: ID_Output;
-  participants: ID_Output[];
-  pendingParticipants: ID_Output[];
-}
-
-export interface CliqPreviousValues
-  extends Promise<CliqPreviousValuesNode>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  participants: () => Promise<ID_Output[]>;
-  pendingParticipants: () => Promise<ID_Output[]>;
-}
-
-export interface CliqPreviousValuesSubscription
-  extends Promise<AsyncIterator<CliqPreviousValuesNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  participants: () => Promise<AsyncIterator<ID_Output[]>>;
-  pendingParticipants: () => Promise<AsyncIterator<ID_Output[]>>;
-}
-
-export interface CliqConnectionNode {}
-
-export interface CliqConnection
-  extends Promise<CliqConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<CliqEdgeNode>>() => T;
-  aggregate: <T = AggregateCliq>() => T;
-}
-
-export interface CliqConnectionSubscription
-  extends Promise<AsyncIterator<CliqConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CliqEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCliqSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<InvitationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateInvitationSubscription>() => T;
 }
 
 export interface PageInfoNode {
@@ -546,6 +732,47 @@ export interface AggregateEventSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface InvitationNode {
+  id: ID_Output;
+  eventId: ID_Output;
+  participantId?: ID_Output;
+  email?: String;
+  code: ID_Output;
+  sentAt: DateTimeOutput;
+  readAt: DateTimeOutput;
+  acceptedAt: DateTimeOutput;
+  declinedAt: DateTimeOutput;
+  status?: InviteStatus;
+}
+
+export interface Invitation extends Promise<InvitationNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  eventId: () => Promise<ID_Output>;
+  participantId: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  code: () => Promise<ID_Output>;
+  sentAt: () => Promise<DateTimeOutput>;
+  readAt: () => Promise<DateTimeOutput>;
+  acceptedAt: () => Promise<DateTimeOutput>;
+  declinedAt: () => Promise<DateTimeOutput>;
+  status: () => Promise<InviteStatus>;
+}
+
+export interface InvitationSubscription
+  extends Promise<AsyncIterator<InvitationNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  eventId: () => Promise<AsyncIterator<ID_Output>>;
+  participantId: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<ID_Output>>;
+  sentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  readAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  acceptedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  declinedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  status: () => Promise<AsyncIterator<InviteStatus>>;
+}
+
 export interface EventSubscriptionPayloadNode {
   mutation: MutationType;
   updatedFields?: String[];
@@ -567,6 +794,140 @@ export interface EventSubscriptionPayloadSubscription
   node: <T = EventSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = EventPreviousValuesSubscription>() => T;
+}
+
+export interface BatchPayloadNode {
+  count: Long;
+}
+
+export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayloadNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface CliqConnectionNode {}
+
+export interface CliqConnection
+  extends Promise<CliqConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<CliqEdgeNode>>() => T;
+  aggregate: <T = AggregateCliq>() => T;
+}
+
+export interface CliqConnectionSubscription
+  extends Promise<AsyncIterator<CliqConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CliqEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCliqSubscription>() => T;
+}
+
+export interface InvitationSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface InvitationSubscriptionPayload
+  extends Promise<InvitationSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Invitation>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = InvitationPreviousValues>() => T;
+}
+
+export interface InvitationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<InvitationSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = InvitationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = InvitationPreviousValuesSubscription>() => T;
+}
+
+export interface CliqPreviousValuesNode {
+  id: ID_Output;
+  participants: ID_Output[];
+  pendingParticipants: ID_Output[];
+}
+
+export interface CliqPreviousValues
+  extends Promise<CliqPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  participants: () => Promise<ID_Output[]>;
+  pendingParticipants: () => Promise<ID_Output[]>;
+}
+
+export interface CliqPreviousValuesSubscription
+  extends Promise<AsyncIterator<CliqPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  participants: () => Promise<AsyncIterator<ID_Output[]>>;
+  pendingParticipants: () => Promise<AsyncIterator<ID_Output[]>>;
+}
+
+export interface CliqSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface CliqSubscriptionPayload
+  extends Promise<CliqSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Cliq>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CliqPreviousValues>() => T;
+}
+
+export interface CliqSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CliqSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CliqSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CliqPreviousValuesSubscription>() => T;
+}
+
+export interface EventPreviousValuesNode {
+  id: ID_Output;
+  locationId?: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  eventTime?: DateTimeOutput;
+  type: EventType;
+  status: EventStatus;
+}
+
+export interface EventPreviousValues
+  extends Promise<EventPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  locationId: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  eventTime: () => Promise<DateTimeOutput>;
+  type: () => Promise<EventType>;
+  status: () => Promise<EventStatus>;
+}
+
+export interface EventPreviousValuesSubscription
+  extends Promise<AsyncIterator<EventPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  locationId: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  eventTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  type: () => Promise<AsyncIterator<EventType>>;
+  status: () => Promise<AsyncIterator<EventStatus>>;
 }
 
 export interface EventEdgeNode {
@@ -619,6 +980,24 @@ export interface EventSubscription
   status: () => Promise<AsyncIterator<EventStatus>>;
 }
 
+export interface EventConnectionNode {}
+
+export interface EventConnection
+  extends Promise<EventConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<EventEdgeNode>>() => T;
+  aggregate: <T = AggregateEvent>() => T;
+}
+
+export interface EventConnectionSubscription
+  extends Promise<AsyncIterator<EventConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEventSubscription>() => T;
+}
+
 export interface CliqNode {
   id: ID_Output;
   participants: ID_Output[];
@@ -639,18 +1018,20 @@ export interface CliqSubscription
   pendingParticipants: () => Promise<AsyncIterator<ID_Output[]>>;
 }
 
-export interface BatchPayloadNode {
-  count: Long;
+export interface AggregateCliqNode {
+  count: Int;
 }
 
-export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayloadNode>>,
+export interface AggregateCliq
+  extends Promise<AggregateCliqNode>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCliqSubscription
+  extends Promise<AsyncIterator<AggregateCliqNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 /*
@@ -658,11 +1039,7 @@ The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
+export type Long = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -674,7 +1051,11 @@ DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
 
-export type Long = string;
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.

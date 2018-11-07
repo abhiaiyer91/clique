@@ -22,6 +22,20 @@ export default {
     },
   },
   Mutation: {
+    inviteUserToEvent: (parent, { eventId, name, email }, { db }) => {
+      const sentAt = new Date();
+      const code = uuidv4();
+
+      return db.createInvitation({
+        participantId: null,
+        name,
+        email,
+        eventId,
+        code,
+        sentAt,
+      });
+
+    },
     updateEventLocation: (parent, { eventId, locationId }, { db }) => {
       return db.updateEvent({
         where: {
@@ -36,11 +50,16 @@ export default {
       const input = {
         type,
         status: 'INCOMPLETE',
+        cliq: {
+          create: {}
+        }
       };
 
       const event = await db.createEvent(input);
 
-      return event;
+      const cliq = await db.event({ id: event.id }).cliq();
+
+      return {...event, cliqId: cliq.id} ;
     },
     updatePendingParticipants: async (
       parent,
