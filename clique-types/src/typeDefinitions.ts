@@ -45,6 +45,15 @@ enum EventType {
 }
 `;
 
+const Invitation = `
+type Invitation {
+  id: ID!
+  eventId: ID!
+  name: String!
+  email: String!
+}
+`;
+
 const Location = `
 type Location {
   id: ID!
@@ -80,6 +89,7 @@ export default {
   Event,
   EventStatus,
   EventType,
+  Invitation,
   Location,
   AuthPayload,
   User

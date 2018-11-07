@@ -10,6 +10,7 @@ declare const _default: {
     Event: string;
     EventStatus: string;
     EventType: string;
+    Invitation: string;
     Location: string;
     AuthPayload: string;
     User: string;
