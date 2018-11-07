@@ -19,7 +19,7 @@ type Query {
 }
 
 type Mutation {
-  inviteUserToEvent(eventId: ID!, name: String!, email: String!): Boolean
+  inviteUserToEvent(eventId: ID!, name: String!, email: String!): ID
   resendInviteToEvent(invitationId: ID!): Boolean
   createEvent(type: EventType): Event
   updateEventLocation(eventId: ID!, locationId: ID!): Event

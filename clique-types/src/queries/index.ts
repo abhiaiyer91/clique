@@ -69,6 +69,17 @@ const eventsForUser = `query eventsForUser {
     type
   }
 }`;
+const invitationsForEvent = `query invitationsForEvent($eventId: ID!) {
+  invitationsForEvent(eventId: $eventId) {
+    id
+    eventId
+    name
+    email
+  }
+}`;
+const inviteUserToEvent = `mutation inviteUserToEvent($eventId: ID!, $name: String!, $email: String!) {
+  inviteUserToEvent(eventId: $eventId, name: $name, email: $email)
+}`;
 const searchLocations = `query searchLocations($searchText: String!) {
   locations(searchText: $searchText) {
     id
@@ -146,6 +157,8 @@ export default {
   eventById,
   eventFragment,
   eventsForUser,
+  invitationsForEvent,
+  inviteUserToEvent,
   searchLocations,
   updateEventLocation,
   updateParticipants,
