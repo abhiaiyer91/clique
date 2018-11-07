@@ -1,6 +1,6 @@
 {
   "name": "@cliquelabs/types",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Central types repo for clique",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
