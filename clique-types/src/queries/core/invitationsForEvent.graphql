@@ -1,0 +1,8 @@
+query invitationsForEvent($eventId: ID!) {
+  invitationsForEvent(eventId: $eventId) {
+    id
+    eventId
+    name
+    email
+  }
+}

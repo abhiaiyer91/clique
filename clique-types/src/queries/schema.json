@@ -737,7 +737,7 @@
             "description": "",
             "args": [
               {
-                "name": "cliqId",
+                "name": "eventId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",

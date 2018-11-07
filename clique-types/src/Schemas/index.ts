@@ -15,7 +15,7 @@ type Query {
   invitationsForEvent(eventId: ID!): [Invitation]
 }
 type Mutation {
-  inviteUserToEvent(cliqId: ID!, name: String!, email: String!): Boolean
+  inviteUserToEvent(eventId: ID!, name: String!, email: String!): Boolean
   resendInviteToEvent(invitationId: ID!): Boolean
   createEvent(type: EventType): Event
   updateEventLocation(eventId: ID!, locationId: ID!): Event

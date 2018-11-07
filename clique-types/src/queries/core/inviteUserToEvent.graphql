@@ -1,0 +1,3 @@
+mutation inviteUserToEvent($eventId: ID!, $name: String!, $email: String) {
+  inviteUserToEvent(eventId: $eventId, name: $name, email: $email)
+}
