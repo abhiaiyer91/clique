@@ -13,21 +13,20 @@ type Query {
   locations(searchText: String!): [Location]
   eventById(id: ID!): Event
   eventsForUser: [Event]
-  invitationsForEvent(eventId: ID!): [Invitation]
   me: User
   friends: [User]
+  invitationsForEvent(eventId: ID!): [Invitation]
 }
 
 type Mutation {
-  inviteUserToEvent(eventId: ID!, name: String!, email: String!): ID
-  resendInviteToEvent(invitationId: ID!): Boolean
   createEvent(type: EventType): Event
   updateEventLocation(eventId: ID!, locationId: ID!): Event
-  updatePendingParticipants(eventId: ID!, participants: [ID!]!): Event
   updateParticipants(eventId: ID!, participants: [ID!]!): Event
-  acceptInvitation(invitationId: ID!, code: ID!): Event
   signup(name: String!, email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+  inviteUserToEvent(eventId: ID!, name: String!, email: String!): ID
+  resendInviteToEvent(invitationId: ID!): Boolean
+  acceptInvitation(invitationId: ID!, code: ID!): Event
 }
 `;
         

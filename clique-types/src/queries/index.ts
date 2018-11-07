@@ -108,11 +108,6 @@ const updateParticipants = `mutation updateParticipants($eventId: ID!, $particip
     ...EventFragment
   }
 }`;
-const updatePendingParticipants = `mutation updatePendingParticipants($eventId: ID!, $participants: [ID!]!) {
-  updatePendingParticipants(eventId: $eventId, participants: $participants) {
-    ...EventFragment
-  }
-}`;
 const friends = `query friends {
   friends {
     id
@@ -162,7 +157,6 @@ export default {
   searchLocations,
   updateEventLocation,
   updateParticipants,
-  updatePendingParticipants,
   friends,
   login,
   me,

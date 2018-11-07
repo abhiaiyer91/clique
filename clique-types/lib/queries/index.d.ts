@@ -15,7 +15,6 @@ declare const _default: {
     searchLocations: string;
     updateEventLocation: string;
     updateParticipants: string;
-    updatePendingParticipants: string;
     friends: string;
     login: string;
     me: string;
