@@ -10,4 +10,5 @@
       }
     ]
   ],
+  "plugins": ["syntax-object-rest-spread"]
 }

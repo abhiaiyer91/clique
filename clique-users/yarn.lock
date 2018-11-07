@@ -21,9 +21,9 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
-"@cliquelabs/types@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@cliquelabs/types/-/types-0.0.16.tgz#9b60903dd66c19847068eb9390bb10f18cef7dcb"
+"@cliquelabs/types@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@cliquelabs/types/-/types-0.0.17.tgz#13ea3411d274e405fdc4750f8ad16568a48aa86a"
   dependencies:
     apollo-link-context "1.0.9"
     apollo-link-http "1.5.5"
@@ -577,6 +577,10 @@ babel-plugin-syntax-async-functions@^6.8.0:
 babel-plugin-syntax-exponentiation-operator@^6.8.0:
   version "6.13.0"
   resolved "http://registry.npmjs.org/babel-plugin-syntax-exponentiation-operator/-/babel-plugin-syntax-exponentiation-operator-6.13.0.tgz#9ee7e8337290da95288201a6a57f4170317830de"
+
+babel-plugin-syntax-object-rest-spread@^6.13.0:
+  version "6.13.0"
+  resolved "http://registry.npmjs.org/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
 
 babel-plugin-syntax-trailing-function-commas@^6.22.0:
   version "6.22.0"

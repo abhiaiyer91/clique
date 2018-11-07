@@ -20,6 +20,8 @@ export default {
       sentAt
     });
 
+    // send invitation
+
     return invitation.id;
   },
   acceptInvitation: async (parent, { invitationId, code }, { db }) => {
@@ -59,45 +61,45 @@ export default {
       pendingParticipants: without(pendingParticipants, userId)
     });
   },
-  updatePendingParticipants: async (
-    parent,
-    { eventId, participants },
-    { db }
-  ) => {
-    // find list of current participants
-    const event = db.event({ id: eventId });
-    const { cliq } = event;
-    const invitedParticipants = concat(
-      get(cliq, "participants"),
-      get(cliq, "pendingParticipants")
-    );
+  // updatePendingParticipants: async (
+  //   parent,
+  //   { eventId, participants },
+  //   { db }
+  // ) => {
+  //   // find list of current participants
+  //   const event = db.event({ id: eventId });
+  //   const { cliq } = event;
+  //   const invitedParticipants = concat(
+  //     get(cliq, "participants"),
+  //     get(cliq, "pendingParticipants")
+  //   );
 
-    const participantsToInvite = without(participants, invitedParticipants);
+  //   const participantsToInvite = without(participants, invitedParticipants);
 
-    const cliqId = get(cliq, "id");
-    const sentAt = new Date();
-    const invitePromises = map(
-      participantsToInvite,
-      async participantToInvite => {
-        const code = uuidv4();
+  //   const cliqId = get(cliq, "id");
+  //   const sentAt = new Date();
+  //   const invitePromises = map(
+  //     participantsToInvite,
+  //     async participantToInvite => {
+  //       const code = uuidv4();
 
-        const email = get(await db.user({ id: participantToInvite }), "email");
+  //       const email = get(await db.user({ id: participantToInvite }), "email");
 
-        return await db.createInvitation({
-          participantId,
-          email,
-          cliqId,
-          code,
-          sentAt
-        });
-      }
-    );
+  //       return await db.createInvitation({
+  //         participantId,
+  //         email,
+  //         cliqId,
+  //         code,
+  //         sentAt
+  //       });
+  //     }
+  //   );
 
-    // send the invitations
-    sendInvititations(Promise.all(invites));
+  //   // send the invitations
+  //   sendInvititations(Promise.all(invites));
 
-    return event;
-  },
+  //   return event;
+  // },
   signup: async (parent, { name, email, password }, ctx) => {
     const hashedPassword = await hash(password, 10);
     const user = await ctx.db.createUser({
