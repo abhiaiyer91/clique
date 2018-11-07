@@ -225,6 +225,8 @@ export type InvitationOrderByInput =
   | "participantId_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "code_ASC"
   | "code_DESC"
   | "sentAt_ASC"
@@ -269,11 +271,12 @@ export interface InvitationCreateInput {
   eventId: ID_Input;
   participantId?: ID_Input;
   email?: String;
-  code: ID_Input;
+  name?: String;
+  code: String;
   sentAt: DateTimeInput;
-  readAt: DateTimeInput;
-  acceptedAt: DateTimeInput;
-  declinedAt: DateTimeInput;
+  readAt?: DateTimeInput;
+  acceptedAt?: DateTimeInput;
+  declinedAt?: DateTimeInput;
   status?: InviteStatus;
 }
 
@@ -314,7 +317,8 @@ export interface InvitationUpdateInput {
   eventId?: ID_Input;
   participantId?: ID_Input;
   email?: String;
-  code?: ID_Input;
+  name?: String;
+  code?: String;
   sentAt?: DateTimeInput;
   readAt?: DateTimeInput;
   acceptedAt?: DateTimeInput;
@@ -379,20 +383,34 @@ export interface InvitationWhereInput {
   email_not_starts_with?: String;
   email_ends_with?: String;
   email_not_ends_with?: String;
-  code?: ID_Input;
-  code_not?: ID_Input;
-  code_in?: ID_Input[] | ID_Input;
-  code_not_in?: ID_Input[] | ID_Input;
-  code_lt?: ID_Input;
-  code_lte?: ID_Input;
-  code_gt?: ID_Input;
-  code_gte?: ID_Input;
-  code_contains?: ID_Input;
-  code_not_contains?: ID_Input;
-  code_starts_with?: ID_Input;
-  code_not_starts_with?: ID_Input;
-  code_ends_with?: ID_Input;
-  code_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  code?: String;
+  code_not?: String;
+  code_in?: String[] | String;
+  code_not_in?: String[] | String;
+  code_lt?: String;
+  code_lte?: String;
+  code_gt?: String;
+  code_gte?: String;
+  code_contains?: String;
+  code_not_contains?: String;
+  code_starts_with?: String;
+  code_not_starts_with?: String;
+  code_ends_with?: String;
+  code_not_ends_with?: String;
   sentAt?: DateTimeInput;
   sentAt_not?: DateTimeInput;
   sentAt_in?: DateTimeInput[] | DateTimeInput;
@@ -621,11 +639,12 @@ export interface InvitationPreviousValuesNode {
   eventId: ID_Output;
   participantId?: ID_Output;
   email?: String;
-  code: ID_Output;
+  name?: String;
+  code: String;
   sentAt: DateTimeOutput;
-  readAt: DateTimeOutput;
-  acceptedAt: DateTimeOutput;
-  declinedAt: DateTimeOutput;
+  readAt?: DateTimeOutput;
+  acceptedAt?: DateTimeOutput;
+  declinedAt?: DateTimeOutput;
   status?: InviteStatus;
 }
 
@@ -636,7 +655,8 @@ export interface InvitationPreviousValues
   eventId: () => Promise<ID_Output>;
   participantId: () => Promise<ID_Output>;
   email: () => Promise<String>;
-  code: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  code: () => Promise<String>;
   sentAt: () => Promise<DateTimeOutput>;
   readAt: () => Promise<DateTimeOutput>;
   acceptedAt: () => Promise<DateTimeOutput>;
@@ -651,7 +671,8 @@ export interface InvitationPreviousValuesSubscription
   eventId: () => Promise<AsyncIterator<ID_Output>>;
   participantId: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
-  code: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<String>>;
   sentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   readAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   acceptedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -737,11 +758,12 @@ export interface InvitationNode {
   eventId: ID_Output;
   participantId?: ID_Output;
   email?: String;
-  code: ID_Output;
+  name?: String;
+  code: String;
   sentAt: DateTimeOutput;
-  readAt: DateTimeOutput;
-  acceptedAt: DateTimeOutput;
-  declinedAt: DateTimeOutput;
+  readAt?: DateTimeOutput;
+  acceptedAt?: DateTimeOutput;
+  declinedAt?: DateTimeOutput;
   status?: InviteStatus;
 }
 
@@ -750,7 +772,8 @@ export interface Invitation extends Promise<InvitationNode>, Fragmentable {
   eventId: () => Promise<ID_Output>;
   participantId: () => Promise<ID_Output>;
   email: () => Promise<String>;
-  code: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  code: () => Promise<String>;
   sentAt: () => Promise<DateTimeOutput>;
   readAt: () => Promise<DateTimeOutput>;
   acceptedAt: () => Promise<DateTimeOutput>;
@@ -765,7 +788,8 @@ export interface InvitationSubscription
   eventId: () => Promise<AsyncIterator<ID_Output>>;
   participantId: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
-  code: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<String>>;
   sentAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   readAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   acceptedAt: () => Promise<AsyncIterator<DateTimeOutput>>;

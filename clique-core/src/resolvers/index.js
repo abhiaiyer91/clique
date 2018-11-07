@@ -12,6 +12,9 @@ export default {
     locations: async (parent, { searchText }) => {
       return await search({ text: searchText });
     },
+    invitationsForEvent: async (parent, { eventId }, { db }) => {
+      return db.invitations({ where: { eventId }});
+    }
   },
   Event: {
     location: async parent => {
@@ -22,11 +25,11 @@ export default {
     },
   },
   Mutation: {
-    inviteUserToEvent: (parent, { eventId, name, email }, { db }) => {
+    inviteUserToEvent: async (parent, { eventId, name, email }, { db }) => {
       const sentAt = new Date();
       const code = uuidv4();
 
-      return db.createInvitation({
+      await db.createInvitation({
         participantId: null,
         name,
         email,
@@ -35,6 +38,7 @@ export default {
         sentAt,
       });
 
+      return true;
     },
     updateEventLocation: (parent, { eventId, locationId }, { db }) => {
       return db.updateEvent({

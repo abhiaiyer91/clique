@@ -311,11 +311,12 @@ type Invitation {
   eventId: ID!
   participantId: ID
   email: String
-  code: ID!
+  name: String
+  code: String!
   sentAt: DateTime!
-  readAt: DateTime!
-  acceptedAt: DateTime!
-  declinedAt: DateTime!
+  readAt: DateTime
+  acceptedAt: DateTime
+  declinedAt: DateTime
   status: InviteStatus
 }
 
@@ -329,11 +330,12 @@ input InvitationCreateInput {
   eventId: ID!
   participantId: ID
   email: String
-  code: ID!
+  name: String
+  code: String!
   sentAt: DateTime!
-  readAt: DateTime!
-  acceptedAt: DateTime!
-  declinedAt: DateTime!
+  readAt: DateTime
+  acceptedAt: DateTime
+  declinedAt: DateTime
   status: InviteStatus
 }
 
@@ -351,6 +353,8 @@ enum InvitationOrderByInput {
   participantId_DESC
   email_ASC
   email_DESC
+  name_ASC
+  name_DESC
   code_ASC
   code_DESC
   sentAt_ASC
@@ -374,11 +378,12 @@ type InvitationPreviousValues {
   eventId: ID!
   participantId: ID
   email: String
-  code: ID!
+  name: String
+  code: String!
   sentAt: DateTime!
-  readAt: DateTime!
-  acceptedAt: DateTime!
-  declinedAt: DateTime!
+  readAt: DateTime
+  acceptedAt: DateTime
+  declinedAt: DateTime
   status: InviteStatus
 }
 
@@ -404,7 +409,8 @@ input InvitationUpdateInput {
   eventId: ID
   participantId: ID
   email: String
-  code: ID
+  name: String
+  code: String
   sentAt: DateTime
   readAt: DateTime
   acceptedAt: DateTime
@@ -469,20 +475,34 @@ input InvitationWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
-  code: ID
-  code_not: ID
-  code_in: [ID!]
-  code_not_in: [ID!]
-  code_lt: ID
-  code_lte: ID
-  code_gt: ID
-  code_gte: ID
-  code_contains: ID
-  code_not_contains: ID
-  code_starts_with: ID
-  code_not_starts_with: ID
-  code_ends_with: ID
-  code_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
   sentAt: DateTime
   sentAt_not: DateTime
   sentAt_in: [DateTime!]
