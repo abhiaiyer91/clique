@@ -7,13 +7,61 @@ const uuidv4 = require("uuid/v4");
 function sendInvititations(invites) {}
 
 export default {
+  updateParticipants: async (parent, { cliqId, participants }, { db }) => {
+    const cliq = await db.cliq({ id: cliqId });
+
+    const cliqParticipants = cliq.participants || [];
+
+    try {
+      await db.updateCliq({
+        where: {
+          id: cliqId
+        },
+        data: {
+          participants: { set: [...cliqParticipants, ...participants] }
+        }
+      });
+
+      return true;
+    } catch (e) {
+      console.error(e);
+
+      return false;
+    }
+  },
+  updateEventLocation: (parent, { eventId, locationId }, { db }) => {
+    return db.updateEvent({
+      where: {
+        id: eventId
+      },
+      data: {
+        locationId
+      }
+    });
+  },
+  createEvent: async (parent, { type }, { db }) => {
+    const input = {
+      type,
+      status: "INCOMPLETE",
+      cliq: {
+        create: {}
+      }
+    };
+
+    return db.createEvent(input);
+  },
   inviteUserToEvent: async (parent, { eventId, name, email }, { db }) => {
     const sentAt = new Date();
     const code = uuidv4();
 
+    const currentUser = await db.user({ id: userId });
+
+    const currentUserName = currentUser.name;
+
     const invitation = await db.createInvitation({
       participantId: null,
       name,
+      inviterName: currentUserName,
       email,
       eventId,
       code,

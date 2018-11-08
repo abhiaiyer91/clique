@@ -24,3 +24,35 @@ type Event {
   type: EventType!
   status: EventStatus!
 }
+
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  location: Location
+  phone: String
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Invitation {
+  id: ID! @unique
+  eventId: ID!
+  participantId: ID # if the user has not accepted an invite, then this will be undefined
+  email: String
+  name: String
+  inviterName: String
+  code: String!
+  sentAt: DateTime!
+  readAt: DateTime
+  acceptedAt: DateTime
+  declinedAt: DateTime
+  status: InviteStatus
+}
+
+enum InviteStatus {
+  ACCEPTED
+  DECLINED
+  PENDING
+}

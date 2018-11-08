@@ -14,6 +14,7 @@ import SiteNavbar from "./components/Navbar";
 import Home from "./features/home";
 import Event from "./features/event";
 import { Login, Signup } from "./features/authentication";
+import AcceptInvitation from "./features/invitations";
 
 export default function App() {
   const [value] = useAuthToken();
@@ -31,6 +32,10 @@ export default function App() {
                     <Route path="/login" component={Login} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/new/event/:id" component={Event} />
+                    <Route
+                      path="/invites/:id/accept/:code"
+                      component={AcceptInvitation}
+                    />
                   </Fragment>
                 </Router>
               </MaxWidth>

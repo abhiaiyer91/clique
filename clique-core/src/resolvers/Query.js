@@ -1,12 +1,18 @@
-import { getUserId } from "../utils";
+import { search, searchBusiness } from "../search/yelp";
 
 export default {
+  eventById: (parent, { id }, { db }) => {
+    return db.event({ id });
+  },
+  locations: async (parent, { searchText }) => {
+    return await search({ text: searchText });
+  },
   me: (parent, args, { db, userId }) => {
     return db.user({ id: userId });
   },
 
   invitationsForEvent: async (parent, { eventId }, { db }) => {
-    return db.invitations({ where: { eventId } });
+    return db.invitations({ where: { eventId, status: "PENDING" } });
   },
 
   friends: async (parent, args, { db, userId }) => {
