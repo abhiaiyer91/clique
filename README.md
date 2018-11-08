@@ -56,12 +56,14 @@ yarn start
 
 For `prisma` based services follow the getting started commands below.
 
-`npm install -g prisma`
+```bash
+npm install -g prisma
 
-`cd clique-__SERVICE_NAME__`
+cd clique-core
 
-`docker-compose up -d`
+docker-compose up -d
 
-`prisma deploy`
+prisma deploy
 
-`prisma generate`
+prisma generate
+```
