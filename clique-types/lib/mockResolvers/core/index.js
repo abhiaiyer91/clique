@@ -42,6 +42,9 @@ exports["default"] = {
             var invitationId = _a.invitationId;
             var event = Event();
             return {
+                id: invitationId,
+                name: faker.name.findName(),
+                inviter: { name: faker.name.findName(), avatar: faker.image.avatar() },
                 event: event
             };
         },

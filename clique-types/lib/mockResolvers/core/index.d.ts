@@ -8,6 +8,12 @@ declare const _default: {
         invitationDetails: (parent: any, { invitationId }: {
             invitationId: any;
         }) => {
+            id: any;
+            name: string;
+            inviter: {
+                name: string;
+                avatar: string;
+            };
             event: {
                 id: string;
                 cliqId: string;

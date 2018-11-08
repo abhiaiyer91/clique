@@ -46,7 +46,7 @@ export default {
       return {
         id: invitationId,
         name: faker.name.findName(),
-        inviterName: faker.name.findName(),
+        inviter: { name: faker.name.findName(), avatar: faker.image.avatar() },
         event
       };
     },

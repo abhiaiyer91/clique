@@ -3,9 +3,11 @@ import { css } from "emotion";
 import withRouter from "react-router-dom/withRouter";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
+import Button from "../../core/Button";
 import MaxWidth from "../../core/MaxWidth";
 import Card from "../../core/Card";
 import Loading from "../../core/Loading";
+import Avatar from "../../core/Avatar";
 import LocationDisplay from "../../components/LocationDisplay";
 
 function AcceptInvitation({ invitationDetails, loading }) {
@@ -27,14 +29,26 @@ function AcceptInvitation({ invitationDetails, loading }) {
               Join my Cliq!
             </h2>
 
+            <MaxWidth maxWidth="320" margin="24px auto 32px">
+              <div
+                className={css({ justifyContent: "center", display: "flex" })}
+              >
+                <Avatar
+                  size={80}
+                  avatar={invitationDetails.inviter.avatar}
+                  title={invitationDetails.inviter.name}
+                />
+              </div>
+            </MaxWidth>
+
             <p
               className={css({
                 textAlign: "center",
-                margin: "0"
+                margin: "0 0 4px"
               })}
             >
               Hey <strong>{invitationDetails.name}</strong>! You have been
-              invited by <strong>{invitationDetails.inviterName}</strong> to
+              invited by <strong>{invitationDetails.inviter.name}</strong> to
               join a <strong>Cliq</strong>!
             </p>
 
@@ -49,9 +63,30 @@ function AcceptInvitation({ invitationDetails, loading }) {
             </p>
           </section>
           <MaxWidth maxWidth="560">
+            <p className={css({ margin: "0 0 10px" })}>
+              <strong>When:</strong>
+            </p>
+            <Card>
+              <p>{invitationDetails.event.eventTime}</p>
+            </Card>
+            <p className={css({ margin: "0 0 10px" })}>
+              <strong>Where:</strong>
+            </p>
             <Card>
               <LocationDisplay location={invitationDetails.event.location} />
             </Card>
+          </MaxWidth>
+
+          <MaxWidth maxWidth="160" margin="24px auto">
+            <Button
+              className={css({
+                padding: "15px 45px",
+                width: "100%",
+                height: "auto"
+              })}
+            >
+              Join!
+            </Button>
           </MaxWidth>
         </Fragment>
       )}
@@ -67,9 +102,13 @@ export default compose(
         invitationDetails(invitationId: $invitationId) {
           id
           name
-          inviterName
+          inviter {
+            name
+            avatar
+          }
           event {
             id
+            # eventTime
             location {
               id
               name

@@ -78,7 +78,7 @@ const InvitationEventPayload = `
 type InvitationEventPayload {
   id: ID!
   name: String
-  inviterName: String  
+  inviter: User
   event: Event
 }
 `;

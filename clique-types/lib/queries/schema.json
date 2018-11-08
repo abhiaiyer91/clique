@@ -740,12 +740,12 @@
             "deprecationReason": null
           },
           {
-            "name": "inviterName",
+            "name": "inviter",
             "description": "",
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,

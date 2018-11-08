@@ -3,6 +3,7 @@ import { css } from "emotion";
 import ClickTarget from "./ClickTarget";
 import Paragraph from "./Paragraph";
 import { Flex, FlexAuto, FlexItem } from "./Flex";
+import Avatar from "./Avatar";
 
 export default function ListItem({
   onSelect,
@@ -43,42 +44,7 @@ export default function ListItem({
         })}
       >
         <FlexAuto align="center">
-          <div
-            className={css({
-              height: 48,
-              width: 48,
-              display: "flex",
-              borderRadius: 4,
-              overflow: "hidden",
-              textAlign: "center",
-              background: "linear-gradient(to bottom, #7bc6cc, #be93c5)"
-            })}
-          >
-            {avatar ? (
-              <img
-                alt="user profile"
-                className={css({
-                  maxWidth: "100%",
-                  height: "auto",
-                  borderRadius: 4
-                })}
-                src={avatar}
-              />
-            ) : (
-              <p
-                className={css({
-                  alignSelf: "center",
-                  color: "white",
-                  fontSize: 24,
-                  flex: "1 0 0px",
-                  fontWeight: 700,
-                  margin: 0
-                })}
-              >
-                {title && title[0]}
-              </p>
-            )}
-          </div>
+          <Avatar avatar={avatar} title={title} />
         </FlexAuto>
         <FlexItem align="center">
           <div className={css({ padding: "0 16px" })}>
