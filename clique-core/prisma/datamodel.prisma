@@ -25,11 +25,22 @@ type Event {
   status: EventStatus!
 }
 
+type Address {
+  address1: String
+  address2: String
+  address3: String
+  city: String
+  zipcode: String
+  country: String
+  state: String
+}
+
+
 type User {
   id: ID! @unique
   name: String!
   email: String! @unique
-  location: Location
+  location: Address
   phone: String
   password: String!
   createdAt: DateTime!

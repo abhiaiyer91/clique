@@ -7,6 +7,7 @@
     "@cliquelabs/types": "^0.0.20",
     "@workpop/graphql-metrics": "^0.4.0",
     "apollo-server-express": "^2.1.0",
+    "bcrypt": "^3.0.2",
     "express": "^4.16.4",
     "fb": "^2.0.0",
     "graphql": "^14.0.2",

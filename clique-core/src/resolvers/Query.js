@@ -1,12 +1,14 @@
-import { search, searchBusiness } from "../search/yelp";
+import { search } from "../search/yelp";
 
 export default {
   eventById: (parent, { id }, { db }) => {
     return db.event({ id });
   },
+
   locations: async (parent, { searchText }) => {
     return await search({ text: searchText });
   },
+
   me: (parent, args, { db, userId }) => {
     return db.user({ id: userId });
   },
