@@ -23,15 +23,27 @@ export default {
     }
   },
   Mutation: {
-    updateParticipants: (parent, { cliqId, participants }, { db }) => {
-      return db.updateCliq({
-        where: {
-          id: cliqId
-        },
-        data: {
-          participants
-        }
-      });
+    updateParticipants: async (parent, { cliqId, participants }, { db }) => {
+      const cliq = await db.cliq({ id: cliqId });
+
+      const cliqParticipants = cliq.participants || [];
+
+      try {
+        await db.updateCliq({
+          where: {
+            id: cliqId
+          },
+          data: {
+            participants: { set: [...cliqParticipants, ...participants] }
+          }
+        });
+
+        return true;
+      } catch (e) {
+        console.error(e);
+
+        return false;
+      }
     },
     updateEventLocation: (parent, { eventId, locationId }, { db }) => {
       return db.updateEvent({

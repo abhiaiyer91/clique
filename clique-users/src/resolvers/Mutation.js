@@ -29,7 +29,7 @@ export default {
   acceptInvitationForNewUser: async (
     parent,
     { invitationId, code, password },
-    { db }
+    { db, coreServiceClient }
   ) => {
     // find invitation with invitationId and code
     const invitation = await db.invitation({
@@ -54,27 +54,31 @@ export default {
 
     const userId = user.id;
 
-    const event = await coreServiceClient.query.eventById(
-      { id: eventId },
-      `
-      {
-        cliq {
-          id
-          participants
+    let event;
+
+    try {
+      event = await coreServiceClient.query.eventById(
+        { id: eventId },
+        `
+        {
+          cliqId
         }
-      }
-    `
-    );
+      `
+      );
+    } catch (e) {
+      throw new Error("No event found for this invitation");
+    }
 
-    const { cliq } = event;
+    const cliqId = event && event.cliqId;
 
-    // add user to participants, remove from pending participants
-    const { participants } = cliq;
-
-    await coreServiceClient.mutation.updateParticipants({
-      cliqId: cliq.id,
-      participants: concat(participants, userId)
-    });
+    try {
+      await coreServiceClient.mutation.updateParticipants({
+        cliqId,
+        participants: [userId]
+      });
+    } catch (e) {
+      throw new Error("Unable to update the active participants in the cliq");
+    }
 
     return {
       eventId,
@@ -84,7 +88,7 @@ export default {
   acceptInvitationForExistingUser: async (
     parent,
     { invitationId, code },
-    { db }
+    { db, coreServiceClient }
   ) => {
     // find invitation with invitationId and code
     const invitation = await db.invitation({

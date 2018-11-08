@@ -27,7 +27,7 @@ const apolloServer = new ApolloServer({
       db: prisma,
       userId: req.headers["x-userid"],
       coreServiceClient: CoreBinding({
-        uri: "http://localhost:1338/graphql",
+        uri: "http://localhost:1337/graphql",
         headersToForward: []
       })
     };
