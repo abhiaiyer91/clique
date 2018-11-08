@@ -15,9 +15,12 @@ declare const _default: {
     searchLocations: string;
     updateEventLocation: string;
     updateParticipants: string;
+    acceptInvitationForExistingUser: string;
+    acceptInvitationForNewUser: string;
     friends: string;
     login: string;
     me: string;
+    resendInviteToEvent: string;
     signup: string;
 };
 export default _default;

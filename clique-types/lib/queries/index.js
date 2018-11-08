@@ -16,9 +16,12 @@ var inviteUserToEvent = "mutation inviteUserToEvent($eventId: ID!, $name: String
 var searchLocations = "query searchLocations($searchText: String!) {\n  locations(searchText: $searchText) {\n    id\n    name\n    avatar\n    rating\n    reviewCount\n    url\n    address {\n      address1\n      address2\n      city\n      country\n      zipcode\n      state\n    }\n  }\n}";
 var updateEventLocation = "mutation updateEventLocation($eventId: ID!, $locationId: ID!) {\n  updateEventLocation(eventId: $eventId, locationId: $locationId) {\n    ...EventFragment\n  }\n}";
 var updateParticipants = "mutation updateParticipants($cliqId: ID!, $participants: [ID!]!) {\n  updateParticipants(cliqId: $cliqId, participants: $participants)\n}";
+var acceptInvitationForExistingUser = "mutation acceptInvitationForExistingUser($invitationId: ID!, $code: String!) {\n  acceptInvitationForExistingUser(invitationId: $invitationId, code: $code) {\n    token\n    eventId\n  }\n}";
+var acceptInvitationForNewUser = "mutation acceptInvitationForNewUser(\n  $invitationId: ID!\n  $password: String!\n  $code: String!\n) {\n  acceptInvitationForNewUser(\n    invitationId: $invitationId\n    password: $password\n    code: $code\n  ) {\n    token\n    eventId\n  }\n}";
 var friends = "query friends {\n  friends {\n    id\n    email\n    name\n    avatar\n  }\n}";
 var login = "mutation login($email: String!, $password: String!) {\n  login(email: $email, password: $password) {\n    user {\n      id\n      name\n      email\n    }\n    token\n  }\n}";
 var me = "query me {\n  me {\n    id\n    name\n    location {\n      state\n      zipcode\n    }\n  }\n}";
+var resendInviteToEvent = "mutation resendInviteToEvent($invitationId: ID!) {\n  resendInviteToEvent(invitationId: $invitationId)\n}";
 var signup = "mutation signup($name: String!, $email: String!, $password: String!) {\n  signup(name: $name, email: $email, password: $password) {\n    user {\n      id\n      name\n      email\n    }\n    token\n  }\n}";
 exports["default"] = {
     createEvent: createEvent,
@@ -30,8 +33,11 @@ exports["default"] = {
     searchLocations: searchLocations,
     updateEventLocation: updateEventLocation,
     updateParticipants: updateParticipants,
+    acceptInvitationForExistingUser: acceptInvitationForExistingUser,
+    acceptInvitationForNewUser: acceptInvitationForNewUser,
     friends: friends,
     login: login,
     me: me,
+    resendInviteToEvent: resendInviteToEvent,
     signup: signup
 };

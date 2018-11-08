@@ -45,15 +45,6 @@ enum EventType {
 }
 `;
 
-const Invitation = `
-type Invitation {
-  id: ID!
-  eventId: ID!
-  name: String!
-  email: String!
-}
-`;
-
 const Location = `
 type Location {
   id: ID!
@@ -73,6 +64,22 @@ type AuthPayload {
 }
 `;
 
+const Invitation = `
+type Invitation {
+  id: ID!
+  eventId: ID!
+  name: String!
+  email: String!
+}
+`;
+
+const InvitationPayload = `
+type InvitationPayload {
+  token: String!
+  eventId: String!
+}
+`;
+
 const User = `
 type User {
   id: ID!
@@ -89,8 +96,9 @@ export default {
   Event,
   EventStatus,
   EventType,
-  Invitation,
   Location,
   AuthPayload,
+  Invitation,
+  InvitationPayload,
   User
 };

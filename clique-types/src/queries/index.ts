@@ -106,6 +106,26 @@ const updateEventLocation = `mutation updateEventLocation($eventId: ID!, $locati
 const updateParticipants = `mutation updateParticipants($cliqId: ID!, $participants: [ID!]!) {
   updateParticipants(cliqId: $cliqId, participants: $participants)
 }`;
+const acceptInvitationForExistingUser = `mutation acceptInvitationForExistingUser($invitationId: ID!, $code: String!) {
+  acceptInvitationForExistingUser(invitationId: $invitationId, code: $code) {
+    token
+    eventId
+  }
+}`;
+const acceptInvitationForNewUser = `mutation acceptInvitationForNewUser(
+  $invitationId: ID!
+  $password: String!
+  $code: String!
+) {
+  acceptInvitationForNewUser(
+    invitationId: $invitationId
+    password: $password
+    code: $code
+  ) {
+    token
+    eventId
+  }
+}`;
 const friends = `query friends {
   friends {
     id
@@ -134,6 +154,9 @@ const me = `query me {
     }
   }
 }`;
+const resendInviteToEvent = `mutation resendInviteToEvent($invitationId: ID!) {
+  resendInviteToEvent(invitationId: $invitationId)
+}`;
 const signup = `mutation signup($name: String!, $email: String!, $password: String!) {
   signup(name: $name, email: $email, password: $password) {
     user {
@@ -155,8 +178,11 @@ export default {
   searchLocations,
   updateEventLocation,
   updateParticipants,
+  acceptInvitationForExistingUser,
+  acceptInvitationForNewUser,
   friends,
   login,
   me,
+  resendInviteToEvent,
   signup
 };

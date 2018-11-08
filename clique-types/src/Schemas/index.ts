@@ -31,7 +31,8 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   inviteUserToEvent(eventId: ID!, name: String!, email: String!): ID
   resendInviteToEvent(invitationId: ID!): Boolean
-  acceptInvitation(invitationId: ID!, code: ID!): Event
+  acceptInvitationForNewUser(invitationId: ID!, password: String!, code: String!): InvitationPayload!
+  acceptInvitationForExistingUser(invitationId: ID!, code: String!): InvitationPayload!
 }
 `;
 
