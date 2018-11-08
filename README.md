@@ -56,14 +56,27 @@ yarn start
 
 For `prisma` based services follow the getting started commands below.
 
+First install the `prisma` cli
+
 ```bash
 npm install -g prisma
+```
 
+Next navigate into the core directory.
+
+```bash
 cd clique-core
+```
 
+Bootstrap the infrastructure with `docker`
+
+```bash
 docker-compose up -d
+```
 
+Deploy the `prisma` server and generate the `prisma-client`
+
+```bash
 prisma deploy
-
 prisma generate
 ```
