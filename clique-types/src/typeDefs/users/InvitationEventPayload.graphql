@@ -1,0 +1,6 @@
+type InvitationEventPayload {
+  id: ID!
+  name: String
+  inviterName: String
+  event: Event
+}

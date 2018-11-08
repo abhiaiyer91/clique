@@ -13,6 +13,7 @@ declare const _default: {
     Location: string;
     AuthPayload: string;
     Invitation: string;
+    InvitationEventPayload: string;
     InvitationPayload: string;
     User: string;
 };

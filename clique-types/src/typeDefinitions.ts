@@ -74,6 +74,15 @@ type Invitation {
 }
 `;
 
+const InvitationEventPayload = `
+type InvitationEventPayload {
+  id: ID!
+  name: String
+  inviterName: String  
+  event: Event
+}
+`;
+
 const InvitationPayload = `
 type InvitationPayload {
   token: String!
@@ -100,6 +109,7 @@ export default {
   Location,
   AuthPayload,
   Invitation,
+  InvitationEventPayload,
   InvitationPayload,
   User
 };
