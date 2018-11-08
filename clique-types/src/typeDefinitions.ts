@@ -70,6 +70,7 @@ type Invitation {
   eventId: ID!
   name: String!
   email: String!
+  inviterName: String!
 }
 `;
 

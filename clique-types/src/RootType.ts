@@ -15,6 +15,7 @@ type Query {
   eventsForUser: [Event]
   me: User
   friends: [User]
+  invitationById(invitationId: ID!): Invitation
   invitationsForEvent(eventId: ID!): [Invitation]
 }
 

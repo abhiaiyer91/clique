@@ -21,9 +21,9 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
-"@cliquelabs/types@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@cliquelabs/types/-/types-0.0.19.tgz#30e3d7a7b780cc2742aa4ecb80270524f2568960"
+"@cliquelabs/types@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@cliquelabs/types/-/types-0.0.20.tgz#ab42628cab9fe7d1518ba4921ae84c5f670365ac"
   dependencies:
     apollo-link-context "1.0.9"
     apollo-link-http "1.5.5"
