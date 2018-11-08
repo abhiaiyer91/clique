@@ -1,4 +1,4 @@
-# clique
+# cliq
 An application that helps you assemble groups to go to events in your area.
 
 ## Table of Contents
