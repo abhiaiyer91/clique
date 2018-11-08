@@ -1,0 +1,6 @@
+mutation acceptInvitationForExistingUser($invitationId: ID!, $code: String!) {
+  acceptInvitationForExistingUser(invitationId: $invitationId, code: $code) {
+    token
+    eventId
+  }
+}

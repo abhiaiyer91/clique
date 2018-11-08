@@ -22,33 +22,37 @@ export default {
 
     // send invitation
 
+    console.log(code);
+
     return invitation.id;
   },
-  acceptInvitation: async (parent, { invitationId, code }, { db }) => {
+  acceptInvitationForNewUser: async (
+    parent,
+    { invitationId, code, password },
+    { db }
+  ) => {
     // find invitation with invitationId and code
     const invitation = await db.invitation({
-      id: invitationId,
-      code
+      id: invitationId
     });
 
     if (!invitation) {
       throw new Error("Invitation not found");
     }
 
-    const { participantId, email, eventId } = invitation;
-
-    let userId = participantId;
-
-    // if no participantId, then we should create a user using the email
-    let user = await db.user({ id: participantId });
-    if (!user) {
-      // create the user
-      user = await db.createUser({
-        email
-      });
-
-      userId = get(user, "id");
+    if (invitation.code !== code) {
+      throw new Error("Invalid token received.");
     }
+
+    const { name, email, eventId } = invitation;
+
+    const user = await db.createUser({
+      email,
+      name,
+      password
+    });
+
+    const userId = user.id;
 
     const event = await coreServiceClient.query.eventById(
       { id: eventId },
@@ -67,12 +71,62 @@ export default {
     // add user to participants, remove from pending participants
     const { participants } = cliq;
 
-    await coreServiceClient.mutation.updatePartcipants({
+    await coreServiceClient.mutation.updateParticipants({
       cliqId: cliq.id,
       participants: concat(participants, userId)
     });
 
     return {
+      eventId,
+      token: sign({ userId: userId }, APP_SECRET)
+    };
+  },
+  acceptInvitationForExistingUser: async (
+    parent,
+    { invitationId, code },
+    { db }
+  ) => {
+    // find invitation with invitationId and code
+    const invitation = await db.invitation({
+      id: invitationId
+    });
+
+    if (!invitation) {
+      throw new Error("Invitation not found");
+    }
+
+    if (invitation.code !== code) {
+      throw new Error("Invalid token received.");
+    }
+
+    const { participantId, eventId } = invitation;
+
+    const userId = participantId;
+
+    const event = await coreServiceClient.query.eventById(
+      { id: eventId },
+      `
+      {
+        cliq {
+          id
+          participants
+        }
+      }
+    `
+    );
+
+    const { cliq } = event;
+
+    // add user to participants, remove from pending participants
+    const { participants } = cliq;
+
+    await coreServiceClient.mutation.updateParticipants({
+      cliqId: cliq.id,
+      participants: concat(participants, userId)
+    });
+
+    return {
+      eventId,
       token: sign({ userId: userId }, APP_SECRET)
     };
   },

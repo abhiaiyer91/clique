@@ -801,7 +801,7 @@
             "description": "",
             "args": [
               {
-                "name": "eventId",
+                "name": "cliqId",
                 "description": "",
                 "type": {
                   "kind": "NON_NULL",
@@ -838,8 +838,8 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Event",
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1079,6 +1079,16 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "AuthPayload",
         "description": "",
@@ -1118,16 +1128,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },

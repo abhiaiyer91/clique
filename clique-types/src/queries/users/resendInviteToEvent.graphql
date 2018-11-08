@@ -1,0 +1,3 @@
+mutation resendInviteToEvent($invitationId: ID!) {
+  resendInviteToEvent(invitationId: $invitationId)
+}

@@ -21,7 +21,7 @@ type Query {
 type Mutation {
   createEvent(type: EventType): Event
   updateEventLocation(eventId: ID!, locationId: ID!): Event
-  updateParticipants(eventId: ID!, participants: [ID!]!): Event
+  updateParticipants(cliqId: ID!, participants: [ID!]!): Boolean
   signup(name: String!, email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
   inviteUserToEvent(eventId: ID!, name: String!, email: String!): ID

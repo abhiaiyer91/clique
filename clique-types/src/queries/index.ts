@@ -103,10 +103,8 @@ const updateEventLocation = `mutation updateEventLocation($eventId: ID!, $locati
     ...EventFragment
   }
 }`;
-const updateParticipants = `mutation updateParticipants($eventId: ID!, $participants: [ID!]!) {
-  updateParticipants(eventId: $eventId, participants: $participants) {
-    ...EventFragment
-  }
+const updateParticipants = `mutation updateParticipants($cliqId: ID!, $participants: [ID!]!) {
+  updateParticipants(cliqId: $cliqId, participants: $participants)
 }`;
 const friends = `query friends {
   friends {

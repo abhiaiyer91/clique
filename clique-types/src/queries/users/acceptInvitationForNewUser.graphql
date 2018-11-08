@@ -1,0 +1,14 @@
+mutation acceptInvitationForNewUser(
+  $invitationId: ID!
+  $password: String!
+  $code: String!
+) {
+  acceptInvitationForNewUser(
+    invitationId: $invitationId
+    password: $password
+    code: $code
+  ) {
+    token
+    eventId
+  }
+}

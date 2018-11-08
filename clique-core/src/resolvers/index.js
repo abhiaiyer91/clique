@@ -23,7 +23,7 @@ export default {
     }
   },
   Mutation: {
-    updatePartcipants: (parent, { cliqId, participants }, { db }) => {
+    updateParticipants: (parent, { cliqId, participants }, { db }) => {
       return db.updateCliq({
         where: {
           id: cliqId
