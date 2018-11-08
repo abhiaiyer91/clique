@@ -13,7 +13,7 @@ function Profile({ user }) {
         {user && user.avatar ? (
           <img
             className={css({ height: 64, width: 64, borderRadius: "50%" })}
-            src="https://randomuser.me/api/portraits/women/21.jpg"
+            src={user.avatar}
             alt=""
           />
         ) : (
@@ -69,7 +69,7 @@ function Profile({ user }) {
               }
             })}
           >
-            Edit my Address
+            Edit my Profile
           </ClickTarget>
         )}
       </div>
@@ -83,6 +83,7 @@ export default graphql(
       me {
         id
         name
+        avatar
       }
     }
   `,
