@@ -10,6 +10,7 @@ import MaxWidth from "./core/MaxWidth";
 import { FlexColumn } from "./core/Flex";
 import { ModalProvider } from "./core/Modal";
 import { PanelProvider } from "./core/Panel";
+import { PopoverProvider } from "./core/Popover";
 import SiteNavbar from "./components/Navbar";
 import Home from "./features/home";
 import Event from "./features/event";
@@ -22,25 +23,27 @@ export default function App() {
     <ApolloProvider client={createClient(value)}>
       <PanelProvider>
         <ModalProvider>
-          <SiteNavbar />
-          <section className={css({ padding: "78px 0px 24px" })}>
-            <FlexColumn justify="center" height="100%">
-              <MaxWidth maxWidth="1024" margin="0 auto">
-                <Router>
-                  <Fragment>
-                    <Route path="/home" component={Home} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/signup" component={Signup} />
-                    <Route path="/new/event/:id" component={Event} />
-                    <Route
-                      path="/invites/:id/accept/:code"
-                      component={AcceptInvitation}
-                    />
-                  </Fragment>
-                </Router>
-              </MaxWidth>
-            </FlexColumn>
-          </section>
+          <PopoverProvider>
+            <SiteNavbar />
+            <section className={css({ padding: "78px 0px 24px" })}>
+              <FlexColumn justify="center" height="100%">
+                <MaxWidth maxWidth="1024" margin="0 auto">
+                  <Router>
+                    <Fragment>
+                      <Route path="/home" component={Home} />
+                      <Route path="/login" component={Login} />
+                      <Route path="/signup" component={Signup} />
+                      <Route path="/new/event/:id" component={Event} />
+                      <Route
+                        path="/invites/:id/accept/:code"
+                        component={AcceptInvitation}
+                      />
+                    </Fragment>
+                  </Router>
+                </MaxWidth>
+              </FlexColumn>
+            </section>
+          </PopoverProvider>
         </ModalProvider>
       </PanelProvider>
     </ApolloProvider>

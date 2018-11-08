@@ -1,18 +1,15 @@
 import React, { useCallback } from "react";
-import { css } from "emotion";
+import { cx, css } from "emotion";
 import useAuthToken from "../hooks/useAuthToken";
 import Navbar from "../core/Navbar";
 import { Flex, FlexItem } from "../core/Flex";
 import ClickTarget from "../core/ClickTarget";
 import NavHeader from "../core/NavHeader";
+import UserDropdownMenu from "./UserDropdownMenu";
+import { avatarClass } from "./Avatar";
 
 function SiteNavbar({ history }) {
   const [value, setItem] = useAuthToken();
-
-  const logout = useCallback(() => {
-    setItem();
-    return window.location.assign("/login");
-  });
 
   const goHome = useCallback(() => {
     return window.location.assign("/home");
@@ -24,21 +21,12 @@ function SiteNavbar({ history }) {
         <ClickTarget onClick={goHome}>
           <NavHeader className={css({ color: "#405dcf" })}>cliq</NavHeader>
         </ClickTarget>
-        {!!value && (
-          <FlexItem className={css({ textAlign: "right" })}>
-            <ClickTarget
-              onClick={logout}
-              className={css({
-                color: "#405dcf",
-                fontWeight: 700,
-                fontSize: 13,
-                textDecoration: "underline"
-              })}
-            >
-              Log out
-            </ClickTarget>
-          </FlexItem>
-        )}
+        <FlexItem className={css({ textAlign: "right" })}>
+          { !!value
+          ? <UserDropdownMenu />
+          : <div className={cx(avatarClass, css({ marginLeft: "auto" }))} />
+          }
+        </FlexItem>
       </Flex>
     </Navbar>
   );
