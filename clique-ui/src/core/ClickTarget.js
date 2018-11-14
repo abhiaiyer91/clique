@@ -7,6 +7,7 @@ export default styled("button")`
   :focus {
     outline: none;
   }
+  background-color: transparent;
   text-align: left;
   cursor: pointer;
 `;

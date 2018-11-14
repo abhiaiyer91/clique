@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
 import { css } from "emotion";
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
 import MaxWidth from "../core/MaxWidth";
 import ClickTarget from "../core/ClickTarget";
 import { Flex, FlexAuto } from "../core/Flex";
@@ -77,23 +75,4 @@ function Profile({ user }) {
   );
 }
 
-export default graphql(
-  gql`
-    query me {
-      me {
-        id
-        name
-        avatar
-      }
-    }
-  `,
-  {
-    props: ({ data, ...rest }) => {
-      return {
-        loading: data.loading,
-        user: data.me,
-        ...rest
-      };
-    }
-  }
-)(Profile);
+export default Profile;

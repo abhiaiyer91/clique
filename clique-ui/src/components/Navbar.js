@@ -2,17 +2,13 @@ import React, { useCallback } from "react";
 import { css } from "emotion";
 import useAuthToken from "../hooks/useAuthToken";
 import Navbar from "../core/Navbar";
-import { Flex, FlexItem } from "../core/Flex";
+import { Flex, FlexAuto, FlexItem } from "../core/Flex";
 import ClickTarget from "../core/ClickTarget";
 import NavHeader from "../core/NavHeader";
+import UserDropdown from "../core/UserDropdown";
 
 function SiteNavbar({ history }) {
-  const [value, setItem] = useAuthToken();
-
-  const logout = useCallback(() => {
-    setItem();
-    return window.location.assign("/login");
-  });
+  const [value] = useAuthToken();
 
   const goHome = useCallback(() => {
     return window.location.assign("/home");
@@ -21,23 +17,15 @@ function SiteNavbar({ history }) {
   return (
     <Navbar>
       <Flex className={css({ width: "97%" })}>
-        <ClickTarget onClick={goHome}>
-          <NavHeader className={css({ color: "#405dcf" })}>cliq</NavHeader>
-        </ClickTarget>
+        <FlexItem align="center" className={css({ textAlign: "left" })}>
+          <ClickTarget onClick={goHome}>
+            <NavHeader className={css({ color: "#405dcf" })}>cliq</NavHeader>
+          </ClickTarget>
+        </FlexItem>
         {!!value && (
-          <FlexItem className={css({ textAlign: "right" })}>
-            <ClickTarget
-              onClick={logout}
-              className={css({
-                color: "#405dcf",
-                fontWeight: 700,
-                fontSize: 13,
-                textDecoration: "underline"
-              })}
-            >
-              Log out
-            </ClickTarget>
-          </FlexItem>
+          <FlexAuto align="center" className={css({ textAlign: "right" })}>
+            <UserDropdown />
+          </FlexAuto>
         )}
       </Flex>
     </Navbar>

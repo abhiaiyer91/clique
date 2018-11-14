@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { css } from "emotion";
 import gql from "graphql-tag";
-import { graphql } from "react-apollo";
+import { graphql, compose } from "react-apollo";
 import queries from "@cliquelabs/types/lib/queries";
 import withRouter from "react-router-dom/withRouter";
 import Profile from "../../components/Profile";
@@ -42,7 +42,7 @@ CreateEvent = graphql(gql(`${eventFragment}${createEvent}`), {
   name: "create"
 })(CreateEvent);
 
-function Home({ history }) {
+function Home({ history, user, userLoading }) {
   const [value] = useAuthToken();
   const { showModal, closeModal } = useModal();
 
@@ -135,7 +135,7 @@ function Home({ history }) {
       <FlexAuto className={css({ paddingLeft: 24, flexBasis: 320 })}>
         <Card>
           <CardBody>
-            <Profile />
+            <Profile loading={userLoading} user={user} />
           </CardBody>
         </Card>
       </FlexAuto>
@@ -143,4 +143,26 @@ function Home({ history }) {
   );
 }
 
-export default withRouter(Home);
+export default compose(
+  withRouter,
+  graphql(
+    gql`
+      query me {
+        me {
+          id
+          name
+          avatar
+        }
+      }
+    `,
+    {
+      props: ({ data, ...rest }) => {
+        return {
+          userLoading: data.loading,
+          user: data.me,
+          ...rest
+        };
+      }
+    }
+  )
+)(Home);
